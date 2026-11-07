@@ -1,0 +1,245 @@
+<header class="sticky top-0 z-40 bg-white shadow-sm">
+  <!-- Top info bar (desktop only) -->
+  <div class="hidden border-b border-gray-100 text-sm lg:block">
+    <div class="container mx-auto flex h-10 items-center justify-between px-4">
+      <div class="flex items-center gap-6 text-gray-500">
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-truck text-primary-600" aria-hidden="true"></i>
+          Free Shipping on Orders 500 EGP
+        </span>
+        <span class="flex items-center gap-2">
+          <i class="fa-solid fa-gift text-primary-600" aria-hidden="true"></i>
+          New Arrivals Daily
+        </span>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-4 text-gray-500">
+          <a href="tel:+18001234567" class="flex items-center gap-1.5 transition-colors hover:text-primary-600">
+            <i class="fa-solid fa-phone text-xs" aria-hidden="true"></i>
+            +1 (800) 123-4567
+          </a>
+          <a href="mailto:support@freshcart.com" class="flex items-center gap-1.5 transition-colors hover:text-primary-600">
+            <i class="fa-regular fa-envelope text-xs" aria-hidden="true"></i>
+            support&#64;freshcart.com
+          </a>
+        </div>
+        <span class="h-4 w-px bg-gray-200"></span>
+        <div class="flex items-center gap-4">
+          @if (auth.isLoggedIn()) {
+            <span class="flex items-center gap-1.5 text-gray-600">
+              <i class="fa-regular fa-user text-xs" aria-hidden="true"></i>
+              Hi, {{ auth.userName() }}
+            </span>
+            <button type="button" class="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-primary-600" (click)="signOut()">
+              <i class="fa-solid fa-right-from-bracket text-xs" aria-hidden="true"></i>
+              Sign Out
+            </button>
+          } @else {
+            <a routerLink="/login" class="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-primary-600">
+              <i class="fa-regular fa-user text-xs" aria-hidden="true"></i>
+              Sign In
+            </a>
+            <a routerLink="/signup" class="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-primary-600">
+              <i class="fa-solid fa-user-plus text-xs" aria-hidden="true"></i>
+              Sign Up
+            </a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main bar -->
+  <div class="container mx-auto px-4">
+    <div class="flex h-16 items-center justify-between gap-4 lg:h-[72px] lg:gap-8">
+      <a routerLink="/" class="flex shrink-0 items-center gap-2 text-2xl font-bold text-gray-900" aria-label="FreshCart home">
+        <i class="fa-solid fa-cart-shopping text-primary-600" aria-hidden="true"></i>
+        FreshCart
+      </a>
+
+      <!-- Search (desktop) -->
+      <form class="hidden max-w-2xl flex-1 lg:flex" (submit)="search($event, desktopSearch.value)">
+        <div class="relative w-full">
+          <input
+            #desktopSearch
+            type="search"
+            name="q"
+            placeholder="Search for products, brands and more..."
+            aria-label="Search products"
+            class="w-full rounded-full border border-gray-200 bg-gray-50/50 px-5 py-3 pr-12 text-sm transition-all focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+          />
+          <button
+            type="submit"
+            aria-label="Search"
+            class="absolute right-1.5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-primary-600 text-white transition-colors hover:bg-primary-700"
+          >
+            <i class="fa-solid fa-magnifying-glass text-sm" aria-hidden="true"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Links (xl and up) -->
+      <nav class="hidden items-center gap-6 xl:flex" aria-label="Main">
+        @for (link of links; track link.path) {
+          <a
+            [routerLink]="link.path"
+            routerLinkActive="!text-primary-600"
+            [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+            class="font-medium text-gray-700 transition-colors hover:text-primary-600"
+            >{{ link.label }}</a
+          >
+        }
+
+        <!-- Categories dropdown (CSS hover / keyboard focus) -->
+        <div class="group relative">
+          <button type="button" class="flex items-center gap-1.5 py-2 font-medium text-gray-700 transition-colors hover:text-primary-600">
+            Categories
+            <i class="fa-solid fa-chevron-down text-[10px] transition-transform group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true"></i>
+          </button>
+          <div class="invisible absolute left-0 top-full pt-1 opacity-0 transition-all duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+            <div class="min-w-[200px] rounded-xl border border-gray-100 bg-white py-2 shadow-xl">
+              <a routerLink="/categories" class="block px-4 py-2.5 text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600">All Categories</a>
+              @for (category of categories; track category.id) {
+                <a [routerLink]="['/categories', category.id]" class="block px-4 py-2.5 text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600">{{ category.name }}</a>
+              }
+            </div>
+          </div>
+        </div>
+
+        <a
+          routerLink="/brands"
+          routerLinkActive="!text-primary-600"
+          class="font-medium text-gray-700 transition-colors hover:text-primary-600"
+          >Brands</a
+        >
+      </nav>
+
+      <!-- Right side -->
+      <div class="flex items-center gap-1 lg:gap-2">
+        <a routerLink="/contact" class="mr-2 hidden items-center gap-2 border-r border-gray-200 pr-3 transition-opacity hover:opacity-80 lg:flex">
+          <div class="flex size-10 items-center justify-center rounded-full bg-primary-50">
+            <i class="fa-solid fa-headset text-primary-600" aria-hidden="true"></i>
+          </div>
+          <div class="text-xs">
+            <div class="text-gray-400">Support</div>
+            <div class="font-semibold text-gray-700">24/7 Help</div>
+          </div>
+        </a>
+
+        <a routerLink="/wishlist" title="Wishlist" aria-label="Wishlist" class="group relative rounded-full p-2.5 transition-colors hover:bg-gray-100">
+          <i class="fa-regular fa-heart text-xl text-gray-500 transition-colors group-hover:text-primary-600" aria-hidden="true"></i>
+          @if (wishlist.ids().length > 0) {
+            <span class="absolute -right-0.5 -top-0.5 flex size-5 items-center justify-center rounded-full bg-red-500 text-[11px] font-bold text-white">{{ wishlist.ids().length }}</span>
+          }
+        </a>
+
+        <a routerLink="/cart" title="Cart" aria-label="Cart" class="group relative rounded-full p-2.5 transition-colors hover:bg-gray-100">
+          <i class="fa-solid fa-cart-shopping text-xl text-gray-500 transition-colors group-hover:text-primary-600" aria-hidden="true"></i>
+          @if (cart.count() > 0) {
+            <span class="absolute -right-0.5 -top-0.5 flex size-5 items-center justify-center rounded-full bg-primary-600 text-[11px] font-bold text-white">{{ cart.count() }}</span>
+          }
+        </a>
+
+        @if (auth.isLoggedIn()) {
+          <a routerLink="/profile" class="ml-2 hidden items-center gap-2 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-primary-600/20 transition-colors hover:bg-primary-700 lg:flex">
+            <i class="fa-regular fa-user text-xs" aria-hidden="true"></i>
+            My Account
+          </a>
+        } @else {
+          <a routerLink="/login" class="ml-2 hidden items-center gap-2 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-primary-600/20 transition-colors hover:bg-primary-700 lg:flex">
+            <i class="fa-regular fa-user text-xs" aria-hidden="true"></i>
+            Sign In
+          </a>
+        }
+
+        <button
+          type="button"
+          class="ml-1 flex size-10 items-center justify-center rounded-full bg-primary-600 text-white transition-colors hover:bg-primary-700 lg:hidden"
+          aria-label="Open menu"
+          [attr.aria-expanded]="menuOpen()"
+          (click)="toggleMenu()"
+        >
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div
+  class="fixed inset-0 z-50 bg-black/50 transition-opacity duration-300 lg:hidden"
+  [class]="menuOpen() ? 'opacity-100' : 'pointer-events-none opacity-0'"
+  (click)="closeMenu()"
+  aria-hidden="true"
+></div>
+<aside
+  class="fixed right-0 top-0 z-50 h-full w-80 max-w-[85vw] overflow-y-auto bg-white shadow-2xl transition-transform duration-300 lg:hidden"
+  [class]="menuOpen() ? 'translate-x-0' : 'translate-x-full'"
+  [attr.inert]="menuOpen() ? null : ''"
+  aria-label="Menu"
+>
+  <div class="flex items-center justify-between border-b border-gray-100 bg-gray-50/50 p-4">
+    <span class="flex items-center gap-2 text-xl font-bold text-gray-900">
+      <i class="fa-solid fa-cart-shopping text-primary-600" aria-hidden="true"></i>
+      FreshCart
+    </span>
+    <button type="button" class="flex size-9 items-center justify-center rounded-full bg-gray-100 transition-colors hover:bg-gray-200" aria-label="Close menu" (click)="closeMenu()">
+      <i class="fa-solid fa-xmark text-gray-600" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <form class="border-b border-gray-100 p-4" (submit)="search($event, mobileSearch.value)">
+    <div class="relative">
+      <input
+        #mobileSearch
+        type="search"
+        placeholder="Search products..."
+        aria-label="Search products"
+        class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 pr-12 text-sm focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+      />
+      <button type="submit" aria-label="Search" class="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg bg-primary-600 text-white">
+        <i class="fa-solid fa-magnifying-glass text-sm" aria-hidden="true"></i>
+      </button>
+    </div>
+  </form>
+
+  <nav class="space-y-1 p-4" aria-label="Mobile">
+    <a routerLink="/" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Home</a>
+    <a routerLink="/products" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Shop</a>
+    <a routerLink="/categories" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Categories</a>
+    <a routerLink="/brands" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Brands</a>
+  </nav>
+
+  <div class="mx-4 border-t border-gray-100"></div>
+
+  <div class="space-y-1 p-4">
+    <a routerLink="/wishlist" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-primary-50">
+      <span class="flex size-9 items-center justify-center rounded-full bg-red-50"><i class="fa-regular fa-heart text-red-500" aria-hidden="true"></i></span>
+      <span class="font-medium text-gray-700">Wishlist</span>
+    </a>
+    <a routerLink="/cart" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 transition-colors hover:bg-primary-50">
+      <span class="flex size-9 items-center justify-center rounded-full bg-primary-50"><i class="fa-solid fa-cart-shopping text-primary-600" aria-hidden="true"></i></span>
+      <span class="font-medium text-gray-700">Cart</span>
+    </a>
+  </div>
+
+  <div class="mx-4 border-t border-gray-100"></div>
+
+  <div class="p-4">
+    @if (auth.isLoggedIn()) {
+      <a routerLink="/profile" (click)="closeMenu()" class="mb-3 flex items-center justify-center gap-2 rounded-xl bg-primary-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-primary-700">
+        <i class="fa-regular fa-user" aria-hidden="true"></i> {{ auth.userName() }}
+      </a>
+      <button type="button" (click)="signOut()" class="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-primary-600 px-4 py-3 font-semibold text-primary-600 transition-colors hover:bg-primary-50">
+        Sign Out
+      </button>
+    } @else {
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <a routerLink="/login" (click)="closeMenu()" class="flex items-center justify-center gap-2 rounded-xl bg-primary-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-primary-700">Sign In</a>
+        <a routerLink="/signup" (click)="closeMenu()" class="flex items-center justify-center gap-2 rounded-xl border-2 border-primary-600 px-4 py-3 font-semibold text-primary-600 transition-colors hover:bg-primary-50">Sign Up</a>
+      </div>
+    }
+  </div>
+</aside>

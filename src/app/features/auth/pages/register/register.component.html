@@ -1,0 +1,143 @@
+<main class="py-10">
+  <div class="container mx-auto grid max-w-7xl grid-cols-1 gap-12 p-4 lg:grid-cols-2">
+    <!-- Left: welcome + selling points + review -->
+    <div>
+      <h1 class="text-4xl font-bold">Welcome to <span class="text-primary-600">FreshCart</span></h1>
+      <p class="mb-4 mt-2 text-xl">Join thousands of happy customers who enjoy fresh groceries delivered right to their doorstep.</p>
+
+      <ul class="my-8 space-y-6">
+        <li class="flex items-start gap-4">
+          <div class="flex size-12 items-center justify-center rounded-full bg-primary-200 text-lg text-primary-600"><i class="fa-solid fa-star" aria-hidden="true"></i></div>
+          <div>
+            <h2 class="text-lg font-semibold">Premium Quality</h2>
+            <p class="text-gray-600">Premium quality products sourced from trusted suppliers.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <div class="flex size-12 items-center justify-center rounded-full bg-primary-200 text-lg text-primary-600"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></div>
+          <div>
+            <h2 class="text-lg font-semibold">Fast Delivery</h2>
+            <p class="text-gray-600">Same-day delivery available in most areas</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <div class="flex size-12 items-center justify-center rounded-full bg-primary-200 text-lg text-primary-600"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+          <div>
+            <h2 class="text-lg font-semibold">Secure Shopping</h2>
+            <p class="text-gray-600">Your data and payments are completely secure</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="rounded-md bg-white p-4 shadow-sm">
+        <div class="mb-4 flex items-center gap-4">
+          <div class="flex size-12 items-center justify-center rounded-full bg-primary-100 text-primary-600"><i class="fa-regular fa-user" aria-hidden="true"></i></div>
+          <div>
+            <h3>Sarah Johnson</h3>
+            <div class="text-yellow-300">
+              <i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i><i class="fa-solid fa-star" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+        <blockquote class="italic text-gray-600">"FreshCart has transformed my shopping experience. The quality of the products is outstanding, and the delivery is always on time. Highly recommend!"</blockquote>
+      </div>
+    </div>
+
+    <!-- Right: form card -->
+    <div class="rounded-2xl bg-white px-6 py-10 shadow-lg">
+      <h2 class="mb-2 text-center text-3xl font-semibold">Create Your Account</h2>
+      <p class="text-center">Start your fresh journey with us today</p>
+
+      <div class="my-10"><app-social-buttons /></div>
+
+      <div class="relative my-4 flex h-0.5 w-full items-center bg-gray-300/30">
+        <span class="absolute left-1/2 -translate-x-1/2 bg-white px-4">or</span>
+      </div>
+
+      @if (apiError()) {
+        <p class="my-4 rounded-lg bg-red-50 p-3 text-sm text-red-600" role="alert">{{ apiError() }}</p>
+      }
+
+      <form class="mt-6 space-y-7" novalidate (submit)="onSubmit($event)">
+        <div class="flex flex-col gap-2">
+          <label for="name">Name*</label>
+          <input id="name" type="text" placeholder="Ali" autocomplete="name" class="rounded-md border border-gray-400/40 px-3 py-2 focus:border-primary-600 focus:outline-none" [formField]="registerForm.name" />
+          @if (registerForm.name().touched()) {
+            @for (error of registerForm.name().errors(); track error.kind) {
+              <p class="-mt-0.5 text-sm text-red-500">*{{ error.message }}</p>
+            }
+          }
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="email">Email*</label>
+          <input id="email" type="email" placeholder="ali@example.com" autocomplete="email" class="rounded-md border border-gray-400/40 px-3 py-2 focus:border-primary-600 focus:outline-none" [formField]="registerForm.email" />
+          @if (registerForm.email().touched()) {
+            @for (error of registerForm.email().errors(); track error.kind) {
+              <p class="-mt-0.5 text-sm text-red-500">*{{ error.message }}</p>
+            }
+          }
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="password">Password*</label>
+          <input id="password" type="password" placeholder="create a strong password" autocomplete="new-password" class="rounded-md border border-gray-400/40 px-3 py-2 focus:border-primary-600 focus:outline-none" [formField]="registerForm.password" />
+          <app-password-strength [password]="model().password" />
+          @if (registerForm.password().touched() && registerForm.password().invalid()) {
+            @for (error of registerForm.password().errors(); track error.kind) {
+              <p class="-mt-0.5 text-sm text-red-500">*{{ error.message }}</p>
+            }
+          } @else {
+            <p class="-mt-2 text-xs text-gray-500">Must be at least 8 characters with numbers and symbols</p>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="rePassword">Confirm Password*</label>
+          <input id="rePassword" type="password" placeholder="confirm your password" autocomplete="new-password" class="rounded-md border border-gray-400/40 px-3 py-2 focus:border-primary-600 focus:outline-none" [formField]="registerForm.rePassword" />
+          @if (registerForm.rePassword().touched()) {
+            @for (error of registerForm.rePassword().errors(); track error.kind) {
+              <p class="-mt-0.5 text-sm text-red-500">*{{ error.message }}</p>
+            }
+          }
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="phone">Phone Number*</label>
+          <input id="phone" type="tel" placeholder="01012345678" autocomplete="tel" class="rounded-md border border-gray-400/40 px-3 py-2 focus:border-primary-600 focus:outline-none" [formField]="registerForm.phone" />
+          @if (registerForm.phone().touched()) {
+            @for (error of registerForm.phone().errors(); track error.kind) {
+              <p class="-mt-0.5 text-sm text-red-500">*{{ error.message }}</p>
+            }
+          }
+        </div>
+
+        <div>
+          <div class="flex items-center gap-2">
+            <input id="terms" type="checkbox" class="size-4 accent-primary-600" [formField]="registerForm.terms" />
+            <label for="terms" class="ms-2">I agree to the <span class="text-primary-600">Terms of Service</span> and <span class="text-primary-600">Privacy Policy</span> *</label>
+          </div>
+          @if (registerForm.terms().touched()) {
+            @for (error of registerForm.terms().errors(); track error.kind) {
+              <p class="mt-1 text-sm text-red-500">*{{ error.message }}</p>
+            }
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="w-full rounded-lg bg-primary-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-50"
+          [disabled]="registerForm().submitting()"
+        >
+          <i class="fa-solid fa-user-plus me-2" aria-hidden="true"></i>
+          {{ registerForm().submitting() ? 'Creating account…' : 'Create My Account' }}
+        </button>
+      </form>
+
+      <p class="my-4 border-t border-gray-300/30 pt-10 text-center">
+        Already have an account?
+        <a routerLink="/login" class="font-medium text-primary-600 hover:underline">Sign In</a>
+      </p>
+    </div>
+  </div>
+</main>

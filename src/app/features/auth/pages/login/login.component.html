@@ -1,0 +1,117 @@
+<div class="container mx-auto px-4 py-16">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2">
+    <!-- Left: illustration + selling points (desktop only) -->
+    <div class="hidden lg:block">
+      <div class="space-y-6 text-center">
+        <div class="relative flex h-96 items-center justify-center overflow-hidden rounded-2xl bg-primary-100 shadow-lg">
+          <i class="fa-solid fa-apple-whole absolute left-[10%] top-[12%] animate-float text-4xl text-primary-300" aria-hidden="true"></i>
+          <i class="fa-solid fa-carrot absolute right-[12%] top-[20%] animate-float text-3xl text-orange-300" aria-hidden="true"></i>
+          <i class="fa-solid fa-lemon absolute bottom-[15%] left-[14%] animate-float text-3xl text-yellow-300" aria-hidden="true"></i>
+          <i class="fa-solid fa-seedling absolute bottom-[12%] right-[14%] animate-float text-4xl text-primary-300" aria-hidden="true"></i>
+          <i class="fa-solid fa-cart-shopping text-9xl text-primary-600" aria-hidden="true"></i>
+        </div>
+        <div class="space-y-4">
+          <h2 class="text-3xl font-bold text-gray-800">FreshCart - Your One-Stop Shop for Fresh Products</h2>
+          <p class="text-lg text-gray-600">Join thousands of happy customers who trust FreshCart for their daily grocery needs</p>
+          <div class="flex items-center justify-center space-x-8 text-sm text-gray-500">
+            <div><i class="fa-solid fa-truck mr-2 text-primary-600" aria-hidden="true"></i>Free Delivery</div>
+            <div><i class="fa-solid fa-shield-halved mr-2 text-primary-600" aria-hidden="true"></i>Secure Payment</div>
+            <div><i class="fa-regular fa-clock mr-2 text-primary-600" aria-hidden="true"></i>24/7 Support</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: the form card -->
+    <div class="w-full">
+      <div class="rounded-2xl bg-white p-8 shadow-xl lg:p-12">
+        <div class="mb-8 text-center">
+          <span class="mb-4 block text-3xl font-bold text-primary-600">Fresh<span class="text-gray-800">Cart</span></span>
+          <h1 class="mb-2 text-2xl font-bold text-gray-800">Welcome Back!</h1>
+          <p class="text-gray-600">Sign in to continue your fresh shopping experience</p>
+        </div>
+
+        <app-social-buttons />
+
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
+          <div class="relative flex justify-center text-sm">
+            <span class="bg-white px-4 font-medium text-gray-500">OR CONTINUE WITH EMAIL</span>
+          </div>
+        </div>
+
+        @if (apiError()) {
+          <p class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600" role="alert">{{ apiError() }}</p>
+        }
+
+        <form class="space-y-6" novalidate (submit)="onSubmit($event)">
+          <div>
+            <label for="email" class="mb-2 block text-sm font-semibold text-gray-700">Email Address</label>
+            <div class="relative">
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 pl-12 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                [formField]="loginForm.email"
+              />
+              <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true"></i>
+            </div>
+            @if (loginForm.email().touched()) {
+              @for (error of loginForm.email().errors(); track error.kind) {
+                <p class="mt-2 text-sm text-red-600">*{{ error.message }}</p>
+              }
+            }
+          </div>
+
+          <div>
+            <div class="mb-2 flex items-center justify-between">
+              <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
+              <a routerLink="/forget-password" class="text-sm font-medium text-primary-600 hover:text-primary-700">Forgot Password?</a>
+            </div>
+            <div class="relative">
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 pl-12 pr-12 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+                [formField]="loginForm.password"
+              />
+              <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true"></i>
+              <button
+                type="button"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+                (click)="showPassword.set(!showPassword())"
+              >
+                <i class="fa-regular" [class]="showPassword() ? 'fa-eye-slash' : 'fa-eye'" aria-hidden="true"></i>
+              </button>
+            </div>
+            @if (loginForm.password().touched()) {
+              @for (error of loginForm.password().errors(); track error.kind) {
+                <p class="mt-2 text-sm text-red-600">*{{ error.message }}</p>
+              }
+            }
+          </div>
+
+          <button
+            type="submit"
+            class="w-full rounded-xl bg-primary-600 px-4 py-3 text-lg font-semibold text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl disabled:opacity-50"
+            [disabled]="loginForm().submitting()"
+          >
+            {{ loginForm().submitting() ? 'Signing in…' : 'Sign In' }}
+          </button>
+        </form>
+
+        <div class="mt-8 border-t border-gray-100 pt-6 text-center">
+          <p class="text-gray-600">
+            New to FreshCart?
+            <a routerLink="/signup" class="ms-2 font-semibold text-primary-600 hover:text-primary-700">Create an account</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
