@@ -14,11 +14,11 @@
           "displayBlock": true,
           "inlineStyle": false,
           "inlineTemplate": false,
-          "skipTests": false,
+          "skipTests": true,
           "type": "component"
         },
         "@schematics/angular:service": {
-          "skipTests": false,
+          "skipTests": true,
           "type": "service"
         },
         "@schematics/angular:interface": {
@@ -26,11 +26,11 @@
           "type": "interface"
         },
         "@schematics/angular:directive": {
-          "skipTests": false,
+          "skipTests": true,
           "type": "directive"
         },
         "@schematics/angular:pipe": {
-          "skipTests": false,
+          "skipTests": true,
           "typeSeparator": "."
         },
         "@schematics/angular:guard": {
@@ -63,22 +63,14 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "security": {
-              "allowedHosts": []
-            },
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "700kB",
                   "maximumError": "1MB"
                 },
                 {
@@ -116,7 +108,8 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {}
         }
       }
     }

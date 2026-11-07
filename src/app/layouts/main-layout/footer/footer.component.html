@@ -1,0 +1,84 @@
+<footer class="bg-gray-900 text-white">
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-4">
+        <a routerLink="/" class="mb-6 inline-block" aria-label="FreshCart home">
+          <span class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-xl font-bold text-gray-900">
+            <i class="fa-solid fa-cart-shopping text-primary-600" aria-hidden="true"></i>
+            FreshCart
+          </span>
+        </a>
+        <p class="mb-6 text-sm leading-relaxed text-gray-400">
+          FreshCart is your one-stop destination for quality products. From fashion to electronics, we bring you the best
+          brands at competitive prices with a seamless shopping experience.
+        </p>
+        <div class="mb-6 space-y-3 text-sm text-gray-400">
+          <a href="tel:+18001234567" class="flex items-center gap-3 transition-colors hover:text-primary-400">
+            <i class="fa-solid fa-phone text-primary-500" aria-hidden="true"></i> +1 (800) 123-4567
+          </a>
+          <a href="mailto:support@freshcart.com" class="flex items-center gap-3 transition-colors hover:text-primary-400">
+            <i class="fa-regular fa-envelope text-primary-500" aria-hidden="true"></i> support&#64;freshcart.com
+          </a>
+          <div class="flex items-start gap-3">
+            <i class="fa-solid fa-location-dot mt-0.5 text-primary-500" aria-hidden="true"></i>
+            123 Commerce Street, New York, NY 10001
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          @for (social of socials; track social.label) {
+            <span class="flex size-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary-600 hover:text-white" [attr.aria-label]="social.label">
+              <i class="fa-brands" [class]="social.icon" aria-hidden="true"></i>
+            </span>
+          }
+        </div>
+      </div>
+
+      <nav class="lg:col-span-2" aria-label="Shop">
+        <h3 class="mb-5 text-lg font-semibold">Shop</h3>
+        <ul class="space-y-3">
+          @for (link of shop; track link.label) {
+            <li><a [routerLink]="link.path" class="text-sm text-gray-400 transition-colors hover:text-primary-400">{{ link.label }}</a></li>
+          }
+        </ul>
+      </nav>
+
+      <nav class="lg:col-span-2" aria-label="Account">
+        <h3 class="mb-5 text-lg font-semibold">Account</h3>
+        <ul class="space-y-3">
+          @for (link of account; track link.label) {
+            <li><a [routerLink]="link.path" class="text-sm text-gray-400 transition-colors hover:text-primary-400">{{ link.label }}</a></li>
+          }
+        </ul>
+      </nav>
+
+      <div class="lg:col-span-2">
+        <h3 class="mb-5 text-lg font-semibold">Support</h3>
+        <ul class="space-y-3">
+          @for (label of support; track label) {
+            <li class="text-sm text-gray-400">{{ label }}</li>
+          }
+        </ul>
+      </div>
+
+      <div class="lg:col-span-2">
+        <h3 class="mb-5 text-lg font-semibold">Legal</h3>
+        <ul class="space-y-3">
+          @for (label of legal; track label) {
+            <li class="text-sm text-gray-400">{{ label }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-gray-800">
+    <div class="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-6 md:flex-row">
+      <p class="text-center text-sm text-gray-500 md:text-left">© {{ year }} FreshCart. All rights reserved.</p>
+      <div class="flex items-center gap-4 text-sm text-gray-500">
+        <span class="flex items-center gap-2"><i class="fa-regular fa-credit-card" aria-hidden="true"></i> Visa</span>
+        <span class="flex items-center gap-2"><i class="fa-regular fa-credit-card" aria-hidden="true"></i> Mastercard</span>
+        <span class="flex items-center gap-2"><i class="fa-regular fa-credit-card" aria-hidden="true"></i> PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>

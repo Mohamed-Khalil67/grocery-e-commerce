@@ -1,0 +1,5 @@
+<span class="inline-flex text-sm" role="img" [attr.aria-label]="'Rated ' + rating() + ' out of 5'">
+  @for (filled of stars(); track $index) {
+    <i class="fa-solid fa-star" [class]="filled ? 'text-yellow-400' : 'text-gray-300'" aria-hidden="true"></i>
+  }
+</span>

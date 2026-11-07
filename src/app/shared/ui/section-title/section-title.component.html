@@ -1,0 +1,11 @@
+<div class="mb-8 flex items-center justify-between gap-4">
+  <h2 class="border-s-4 border-primary-600 ps-3 text-2xl font-bold text-gray-800 md:text-3xl">
+    {{ plain() }} <span class="text-primary-600">{{ accent() }}</span>
+  </h2>
+  @if (link()) {
+    <a [routerLink]="link()" class="flex items-center gap-2 font-medium text-primary-600 hover:text-primary-700">
+      {{ linkLabel() }}
+      <i class="fa-solid fa-arrow-right text-sm" aria-hidden="true"></i>
+    </a>
+  }
+</div>
