@@ -79,9 +79,10 @@ don't put `[disabled]`/`[value]` on an input that has `[formField]`.
 
 ## 6. Errors from the API
 
-`core/utils/api-error.ts → getApiErrorMessage(err)` handles both Route API error shapes
-(`{ message }` and validation `{ errors: { msg } }`) by **narrowing `unknown`** — no `any`, no `as`.
-Use it in every `catch`.
+The **error interceptor** is the one place that shows API errors: it calls
+`core/utils/api-error.ts → getApiErrorMessage(err)` (handles both Route API shapes, `{ message }` and
+validation `{ errors: { msg } }`, by **narrowing `unknown`** — no `any`, no `as`) and shows the text with
+`ToastService.error()`. Pages don't format errors; their `catch` only stops what they were doing.
 
 ## 7. Reading data: HttpClient vs httpResource
 

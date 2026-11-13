@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-promo-banners',
+  styleUrl: './promo-banners.component.css',
   templateUrl: './promo-banners.component.html',
 })
 export class PromoBannersComponent {}

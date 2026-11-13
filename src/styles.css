@@ -49,6 +49,17 @@
   --color-primary-900: var(--color-green-900);
 
   --animate-float: float 6s ease-in-out infinite;
+  --animate-toast-timer: toast-timer linear forwards;
+
+  /* the toast's time-out bar shrinks from full width to nothing */
+  @keyframes toast-timer {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0;
+    }
+  }
 
   @keyframes float {
     0%,

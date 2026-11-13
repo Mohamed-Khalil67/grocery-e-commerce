@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-quantity-stepper',
+  styleUrl: './quantity-stepper.component.css',
   templateUrl: './quantity-stepper.component.html',
 })
 export class QuantityStepperComponent {}

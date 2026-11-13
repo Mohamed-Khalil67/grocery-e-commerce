@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-payment-method-picker',
+  styleUrl: './payment-method-picker.component.css',
   templateUrl: './payment-method-picker.component.html',
 })
 export class PaymentMethodPickerComponent {}

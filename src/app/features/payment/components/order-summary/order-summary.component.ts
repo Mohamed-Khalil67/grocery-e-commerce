@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-order-summary',
+  styleUrl: './order-summary.component.css',
   templateUrl: './order-summary.component.html',
 })
 export class OrderSummaryComponent {}

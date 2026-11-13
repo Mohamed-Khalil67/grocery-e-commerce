@@ -28,6 +28,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-category-details',
+  styleUrl: './category-details.component.css',
   templateUrl: './category-details.component.html',
 })
 export class CategoryDetailsComponent {}

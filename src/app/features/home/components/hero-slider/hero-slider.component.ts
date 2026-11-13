@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-hero-slider',
+  styleUrl: './hero-slider.component.css',
   templateUrl: './hero-slider.component.html',
 })
 export class HeroSliderComponent {}

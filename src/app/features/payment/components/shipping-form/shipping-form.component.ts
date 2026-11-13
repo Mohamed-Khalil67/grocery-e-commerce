@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-shipping-form',
+  styleUrl: './shipping-form.component.css',
   templateUrl: './shipping-form.component.html',
 })
 export class ShippingFormComponent {}

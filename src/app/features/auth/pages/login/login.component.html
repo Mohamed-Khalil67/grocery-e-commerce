@@ -40,10 +40,6 @@
           </div>
         </div>
 
-        @if (apiError()) {
-          <p class="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600" role="alert">{{ apiError() }}</p>
-        }
-
         <form class="space-y-6" novalidate (submit)="onSubmit($event)">
           <div>
             <label for="email" class="mb-2 block text-sm font-semibold text-gray-700">Email Address</label>

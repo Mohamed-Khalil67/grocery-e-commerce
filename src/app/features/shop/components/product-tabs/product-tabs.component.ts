@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-product-tabs',
+  styleUrl: './product-tabs.component.css',
   templateUrl: './product-tabs.component.html',
 })
 export class ProductTabsComponent {}

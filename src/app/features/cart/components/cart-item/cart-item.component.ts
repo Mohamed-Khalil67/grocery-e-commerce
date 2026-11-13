@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-cart-item',
+  styleUrl: './cart-item.component.css',
   templateUrl: './cart-item.component.html',
 })
 export class CartItemComponent {}

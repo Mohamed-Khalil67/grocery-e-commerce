@@ -19,6 +19,7 @@ import { StarRatingComponent } from '../../ui/star-rating/star-rating.component'
 @Component({
   imports: [RouterLink, DecimalPipe, StarRatingComponent],
   selector: 'app-product-card',
+  styleUrl: './product-card.component.css',
   templateUrl: './product-card.component.html',
 })
 export class ProductCardComponent {

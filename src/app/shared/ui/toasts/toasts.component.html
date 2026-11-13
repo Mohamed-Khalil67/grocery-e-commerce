@@ -1,0 +1,24 @@
+<div class="toast toast-top toast-end z-[70]" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div
+      class="alert relative overflow-hidden text-sm shadow-lg"
+      [class.alert-success]="toast.kind === 'success'"
+      [class.alert-error]="toast.kind === 'error'"
+    >
+      <span>{{ toast.message }}</span>
+      <button
+        type="button"
+        class="btn btn-ghost btn-xs btn-circle"
+        aria-label="Close notification"
+        (click)="toastService.dismiss(toast.id)"
+      >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <!-- time-out bar: shrinks over the same time the toast stays on screen -->
+      <div
+        class="animate-toast-timer absolute bottom-0 left-0 h-1 bg-current opacity-40"
+        [style.animation-duration.ms]="duration"
+      ></div>
+    </div>
+  }
+</div>

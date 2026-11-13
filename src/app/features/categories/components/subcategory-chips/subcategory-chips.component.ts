@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-subcategory-chips',
+  styleUrl: './subcategory-chips.component.css',
   templateUrl: './subcategory-chips.component.html',
 })
 export class SubcategoryChipsComponent {}

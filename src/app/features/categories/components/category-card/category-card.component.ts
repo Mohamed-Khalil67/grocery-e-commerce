@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-category-card',
+  styleUrl: './category-card.component.css',
   templateUrl: './category-card.component.html',
 })
 export class CategoryCardComponent {}

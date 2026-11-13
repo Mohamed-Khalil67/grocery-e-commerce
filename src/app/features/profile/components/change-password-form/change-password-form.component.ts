@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-change-password-form',
+  styleUrl: './change-password-form.component.css',
   templateUrl: './change-password-form.component.html',
 })
 export class ChangePasswordFormComponent {}

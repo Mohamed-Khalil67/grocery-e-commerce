@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
  * Keep it simple: handle those two. Add more cases when you actually hit them.
  */
 export function getApiErrorMessage(error: unknown): string {
+  // instanceof , is just to verify if error is a class of HttpErrorResponse
   if (error instanceof HttpErrorResponse) {
     const body: unknown = error.error;
     if (typeof body === 'object' && body !== null) {

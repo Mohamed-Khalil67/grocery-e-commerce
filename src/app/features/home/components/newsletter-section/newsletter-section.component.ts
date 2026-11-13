@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-newsletter-section',
+  styleUrl: './newsletter-section.component.css',
   templateUrl: './newsletter-section.component.html',
 })
 export class NewsletterSectionComponent {}

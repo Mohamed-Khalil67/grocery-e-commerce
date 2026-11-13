@@ -1,11 +1,10 @@
 <div class="flex min-h-dvh flex-col bg-white">
-  <app-navbar />
+  <app-header-layout />
 
   <!-- Pages decide their own width/padding (many start with a full-width banner) -->
   <main class="flex-1">
     <router-outlet />
   </main>
 
-  <app-feature-strip />
-  <app-footer />
+  <app-footer-layout />
 </div>

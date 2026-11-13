@@ -13,6 +13,7 @@ export interface Crumb {
 @Component({
   imports: [RouterLink],
   selector: 'app-page-header',
+  styleUrl: './page-header.component.css',
   templateUrl: './page-header.component.html',
 })
 export class PageHeaderComponent {

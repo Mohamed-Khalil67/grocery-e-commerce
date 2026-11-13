@@ -3,6 +3,7 @@ import { Component, computed, input } from '@angular/core';
 /** The coloured bar + "Weak / Fair / Good / Strong" under the register password field. */
 @Component({
   selector: 'app-password-strength',
+  styleUrl: './password-strength.component.css',
   templateUrl: './password-strength.component.html',
 })
 export class PasswordStrengthComponent {

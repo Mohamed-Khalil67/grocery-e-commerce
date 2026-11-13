@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
-import { FeatureStripComponent } from './feature-strip/feature-strip.component';
+import { HeaderLayoutComponent } from '../header-layout/header-layout.component';
+import { FooterLayoutComponent } from '../footer-layout/footer-layout.component';
 
 /**
  * The ONE layout of the app (like the demo): login, sign-up and 404 live inside it too.
- * Top bar + navbar → page → feature strip → footer.
+ * header-layout → page → footer-layout.
  */
 @Component({
-  imports: [RouterOutlet, NavbarComponent, FeatureStripComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderLayoutComponent, FooterLayoutComponent],
   selector: 'app-main-layout',
+  styleUrl: './main-layout.component.css',
   templateUrl: './main-layout.component.html',
 })
 export class MainLayoutComponent {

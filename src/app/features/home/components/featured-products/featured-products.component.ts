@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-featured-products',
+  styleUrl: './featured-products.component.css',
   templateUrl: './featured-products.component.html',
 })
 export class FeaturedProductsComponent {}

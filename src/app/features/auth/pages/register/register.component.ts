@@ -3,18 +3,20 @@ import { Router, RouterLink } from '@angular/router';
 import { email, form, FormField, minLength, pattern, required, submit, validate } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../core/auth/services/auth.service';
-import { getApiErrorMessage } from '../../../../core/utils/api-error';
+import { ToastService } from '../../../../core/services/toast.service';
 import { SocialButtonsComponent } from '../../components/social-buttons/social-buttons.component';
 import { PasswordStrengthComponent } from '../../components/password-strength/password-strength.component';
 
 @Component({
   imports: [FormField, RouterLink, SocialButtonsComponent, PasswordStrengthComponent],
   selector: 'app-register',
+  styleUrl: './register.component.css',
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   protected readonly model = signal({
     name: '',
@@ -52,19 +54,18 @@ export class RegisterComponent {
     );
   });
 
-  protected readonly apiError = signal('');
 
   protected async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    this.apiError.set('');
 
     await submit(this.registerForm, async () => {
       try {
         const { name, email, password, rePassword, phone } = this.model();
         await firstValueFrom(this.auth.signUp({ name, email, password, rePassword, phone }));
+        this.toast.success('Account created! Please sign in.');
         await this.router.navigate(['/login']);
-      } catch (error: unknown) {
-        this.apiError.set(getApiErrorMessage(error));
+      } catch {
+        // nothing to do: the error interceptor already showed the error as a toast
       }
     });
   }

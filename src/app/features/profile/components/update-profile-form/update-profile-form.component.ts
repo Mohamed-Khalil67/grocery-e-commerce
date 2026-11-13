@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-update-profile-form',
+  styleUrl: './update-profile-form.component.css',
   templateUrl: './update-profile-form.component.html',
 })
 export class UpdateProfileFormComponent {}

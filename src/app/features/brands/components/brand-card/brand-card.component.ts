@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-brand-card',
+  styleUrl: './brand-card.component.css',
   templateUrl: './brand-card.component.html',
 })
 export class BrandCardComponent {}

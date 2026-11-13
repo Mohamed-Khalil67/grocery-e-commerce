@@ -1,6 +1,6 @@
 # Architecture — FreshCart (Angular 22)
 
-Stack: Angular 22 (standalone, signals) · client-side rendering only (SSR removed for now) · Tailwind CSS v4 (+ DaisyUI for a few helpers) · Font Awesome · Exo font.
+Stack: Angular 22 (standalone, signals) · SSR/SSG (`@angular/ssr`) · Tailwind CSS v4 (+ DaisyUI for a few helpers) · Font Awesome · Exo font.
 API: Route e-commerce API `https://ecommerce.routemisr.com/api/v1` · [Postman docs](https://documenter.getpostman.com/view/5709532/2s93JqTRWN) · demo: <https://freshcart-route.vercel.app>.
 
 ## Where this structure comes from
@@ -33,20 +33,23 @@ None of them define how deep child components nest, so this project uses one sim
 src/app/
 ├── app.ts · app.html           # root: loading bar + <router-outlet>
 ├── app.config.ts               # router features, HttpClient + interceptors
-├── app.routes.ts               # all routes (lazy)
+├── app.routes.ts               # all routes (lazy) · app.routes.server.ts → prerender vs client
 │
 ├── core/                       # singletons used by everything
 │   ├── auth/
 │   │   ├── guards/             # auth.guard.ts (→ /login?callbackUrl=…) · guest.guard.ts           ✅
 │   │   └── services/           # auth.service.ts: token signal, signIn/Up/Out         ✅
-│   ├── interceptors/           # base-url · auth (token header) · loading · error (401)            ✅
+│   ├── interceptors/           # base-url · auth (token header) · loading · error (toast + 401)    ✅
 │   ├── models/                 # shared API shapes: api-response, product, brand, category         ✅
-│   └── utils/api-error.ts      # getApiErrorMessage(err)                                           ✅
+│   ├── services/toast.service.ts  # pop-up messages (toast.success / toast.error)                 ✅
+│   └── utils/api-error.ts      # getApiErrorMessage(err), used by the error interceptor          ✅
 │
 ├── layouts/
-│   └── main-layout/            # the ONE layout (as in the demo)                                  ✅
-│       ├── navbar/             #   top bar + search + categories dropdown + badges + mobile drawer
-│       ├── feature-strip/      #   "Free Shipping / Easy Returns / …" strip
+│   ├── main-layout/            # the ONE layout (as in the demo): header + <router-outlet> + footer  ✅
+│   ├── header-layout/          #   top of the page
+│   │   └── navbar/             #     top bar + search + categories dropdown + badges + mobile drawer
+│   └── footer-layout/          #   bottom of the page
+│       ├── feature-strip/      #     "Free Shipping / Easy Returns / …" strip
 │       └── footer/
 │
 ├── shared/                     # reused by 2+ features, no API calls
@@ -110,7 +113,7 @@ component ─▶ service: http.get<ApiListResponse<Product>>('/products')
    1 baseUrl   '/products' → 'https://ecommerce.routemisr.com/api/v1/products'
    2 auth      adds header  token: <jwt>   (Route API host only)
    3 loading   NgxSpinnerService show() / hide() → full-screen spinner
-   4 error     401 while logged in → signOut(); always re-throws
+   4 error     every failure → toast with the message; 401 while logged in → also signOut(); always re-throws
               ▼
            Route API ─▶ typed response
 ```
@@ -118,7 +121,8 @@ component ─▶ service: http.get<ApiListResponse<Product>>('/products')
 ## State
 
 - Services own state as plain signals (`readonly x = signal(...)`). Only the service calls `.set()`/`.update()`; components just read. (`.asReadonly()` is an optional hardening step for later.)
-- The app is client-rendered only, so `localStorage` can be used directly (the token lives there).
+- The server has no `localStorage`/`window`: `AuthService` only reads storage when `isPlatformBrowser(...)` is true.
+- login / signup / forget-password are prerendered at build time; every other page is rendered in the browser (`app.routes.server.ts`).
 
 ## Verified against the live API / demo (what differs from the Postman collection)
 

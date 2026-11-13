@@ -9,6 +9,7 @@ interface FooterLink {
 @Component({
   imports: [RouterLink],
   selector: 'app-footer',
+  styleUrl: './footer.component.css',
   templateUrl: './footer.component.html',
 })
 export class FooterComponent {

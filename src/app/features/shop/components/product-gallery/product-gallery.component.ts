@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-product-gallery',
+  styleUrl: './product-gallery.component.css',
   templateUrl: './product-gallery.component.html',
 })
 export class ProductGalleryComponent {}

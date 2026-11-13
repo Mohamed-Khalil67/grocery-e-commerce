@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-category-slider',
+  styleUrl: './category-slider.component.css',
   templateUrl: './category-slider.component.html',
 })
 export class CategorySliderComponent {}

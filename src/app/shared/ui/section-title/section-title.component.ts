@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   imports: [RouterLink],
   selector: 'app-section-title',
+  styleUrl: './section-title.component.css',
   templateUrl: './section-title.component.html',
 })
 export class SectionTitleComponent {

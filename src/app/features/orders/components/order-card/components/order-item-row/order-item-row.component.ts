@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-order-item-row',
+  styleUrl: './order-item-row.component.css',
   templateUrl: './order-item-row.component.html',
 })
 export class OrderItemRowComponent {}

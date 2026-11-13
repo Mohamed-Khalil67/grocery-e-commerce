@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-product-info',
+  styleUrl: './product-info.component.css',
   templateUrl: './product-info.component.html',
 })
 export class ProductInfoComponent {}

@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-review-list',
+  styleUrl: './review-list.component.css',
   templateUrl: './review-list.component.html',
 })
 export class ReviewListComponent {}

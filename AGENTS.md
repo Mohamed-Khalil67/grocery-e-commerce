@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Guidance for AI coding agents working on this Angular 22 e-commerce app (client-side only, no SSR; Tailwind CSS v4, DaisyUI, Vitest).
+Guidance for AI coding agents working on this Angular 22 e-commerce app (SSR/SSG via `@angular/ssr`; Tailwind CSS v4, DaisyUI, Vitest).
 
 ## Learning mode (read first)
 
@@ -15,7 +15,7 @@ is done; features are `TODO(<tag>)` comments in the code, listed in `docs/TODO.m
 ## Tooling
 
 - Use the `angular-cli` MCP server (configured in `.mcp.json`): call `list_projects` first, then `get_best_practices` before writing code. Use `search_documentation` for API questions.
-- Use the skills in `.agents/skills/` (`angular-developer`, `angular-new-app`) for components, services, forms, routing and testing.
+- Use the skills in `.agents/skills/` (`angular-developer`, `angular-new-app`) for components, services, forms, routing, SSR and testing.
 - Generate code with `ng generate` so naming and file layout stay consistent.
 - Before finishing a task run `ng build`; it must pass with zero type errors. No spec/unit tests in this project (do not create or run them).
 
@@ -46,7 +46,7 @@ is done; features are `TODO(<tag>)` comments in the code, listed in `docs/TODO.m
 ### External data
 - API responses are untrusted. Define a DTO type, map it to the domain model in the service layer, and validate/narrow unexpected shapes before use.
 - Never cast `JSON.parse` results; assign to `unknown` and narrow.
-- No SSR in this project: browser APIs (`window`, `localStorage`) can be used directly.
+- The app is server-rendered: never touch browser-only APIs (`window`, `localStorage`) while rendering on the server. Guard with `isPlatformBrowser` or use `afterNextRender`.
 
 ## Style
 

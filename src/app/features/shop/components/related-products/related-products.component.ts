@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-related-products',
+  styleUrl: './related-products.component.css',
   templateUrl: './related-products.component.html',
 })
 export class RelatedProductsComponent {}

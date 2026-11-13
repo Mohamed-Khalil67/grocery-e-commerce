@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-review-form',
+  styleUrl: './review-form.component.css',
   templateUrl: './review-form.component.html',
 })
 export class ReviewFormComponent {}

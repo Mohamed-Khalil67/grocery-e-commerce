@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   imports: [],
   selector: 'app-cart-summary',
+  styleUrl: './cart-summary.component.css',
   templateUrl: './cart-summary.component.html',
 })
 export class CartSummaryComponent {}

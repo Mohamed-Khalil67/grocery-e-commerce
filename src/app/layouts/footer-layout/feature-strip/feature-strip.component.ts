@@ -9,6 +9,7 @@ interface Feature {
 /** The light-green "Free Shipping / Easy Returns / Secure Payment / 24/7 Support" strip above the footer. */
 @Component({
   selector: 'app-feature-strip',
+  styleUrl: './feature-strip.component.css',
   templateUrl: './feature-strip.component.html',
 })
 export class FeatureStripComponent {

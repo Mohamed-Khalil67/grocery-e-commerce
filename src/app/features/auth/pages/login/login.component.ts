@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { email, form, FormField, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../core/auth/services/auth.service';
-import { getApiErrorMessage } from '../../../../core/utils/api-error';
+import { ToastService } from '../../../../core/services/toast.service';
 import { SocialButtonsComponent } from '../../components/social-buttons/social-buttons.component';
 
 /**
@@ -19,11 +19,13 @@ import { SocialButtonsComponent } from '../../components/social-buttons/social-b
 @Component({
   imports: [FormField, RouterLink, SocialButtonsComponent],
   selector: 'app-login',
+  styleUrl: './login.component.css',
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   /** ?callbackUrl=… (set by authGuard) — bound from the URL by withComponentInputBinding(). */
   readonly callbackUrl = input<string>();
@@ -36,21 +38,20 @@ export class LoginComponent {
     required(path.password, { message: 'Password is required' });
   });
 
-  protected readonly apiError = signal('');
   protected readonly showPassword = signal(false);
 
   protected async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    this.apiError.set('');
 
     await submit(this.loginForm, async () => {
       try {
         const { email, password } = this.model();
         const res = await firstValueFrom(this.auth.signIn({ email, password }));
         this.auth.saveSession(res.token, res.user.name);
+        this.toast.success('Welcome back!');
         await this.router.navigateByUrl(this.callbackUrl() ?? '/');
-      } catch (error: unknown) {
-        this.apiError.set(getApiErrorMessage(error));
+      } catch {
+        // nothing to do: the error interceptor already showed the error as a toast
       }
     });
   }

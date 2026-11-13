@@ -15,7 +15,7 @@ the **endpoints**, and the **concepts** to practice — never the steps. Work it
 - [x] Feature folders (pages / components / services / models), lazy routes, ONE layout, navbar + footer + feature strip, 404 (all matched to the demo)
 - [x] Interceptors, guards (authGuard keeps `callbackUrl`), AuthService (token signal in localStorage)
 - [x] Login + Register (Signal Forms) with child components social-buttons and password-strength
-- [x] Shared: product-card, page-header, section-title, star-rating, loading spinner
+- [x] Shared: product-card, page-header, section-title, star-rating, toasts, loading spinner
 - [x] Models for products / categories / brands / auth / list+item responses (verified against the live API)
 
 ## Order to build (each step uses what the previous one taught)

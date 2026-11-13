@@ -1,4 +1,5 @@
-import { computed, inject, Service, signal } from '@angular/core';
+import { computed, inject, PLATFORM_ID, Service, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -18,10 +19,12 @@ const NAME_KEY = 'userName';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  // The server has no localStorage, so only read it in the browser.
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  readonly token = signal<string | undefined>(localStorage.getItem(TOKEN_KEY) ?? undefined);
+  readonly token = signal<string | undefined>(this.read(TOKEN_KEY));
   /** Shown in the navbar ("Hi, Ahmed"). */
-  readonly userName = signal<string | undefined>(localStorage.getItem(NAME_KEY) ?? undefined);
+  readonly userName = signal<string | undefined>(this.read(NAME_KEY));
   readonly isLoggedIn = computed(() => this.token() !== undefined);
 
   signUp(payload: SignUpPayload): Observable<AuthResponse> {
@@ -38,6 +41,10 @@ export class AuthService {
     localStorage.setItem(NAME_KEY, userName);
     this.token.set(token);
     this.userName.set(userName);
+  }
+
+  private read(key: string): string | undefined {
+    return this.isBrowser ? (localStorage.getItem(key) ?? undefined) : undefined;
   }
 
   signOut(): void {
