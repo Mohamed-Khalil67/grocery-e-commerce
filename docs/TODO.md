@@ -1,5 +1,7 @@
 # TODO roadmap — build it yourself
 
+> For a new session read `docs/HANDOFF.md` first: it has the current status, the working rules and ALL the API data.
+
 The base is done (✅). Everything else is yours. Each TODO is written in the code next to where it goes;
 search the project for `TODO(<tag>)`.
 
@@ -29,10 +31,10 @@ Tick each when it works in the browser AND `ng build` passes.
 | Auth: Login, Register, Forgot password | ✅ done | |
 | Auth: **Change password** | ⬜ | `TODO(profile-1)` in ProfileService + `change-password-form` in the profile page |
 | **Homepage** | 🟡 4 of 6 sections | left: **Featured Products** grid (`TODO(home-featured)`, ask me the "which products?" rule: sort by `-sold`, `-ratingsAverage` or default), **Newsletter** (`TODO(home-newsletter)`) |
-| **Products** page | ⬜ | `TODO(products-1)` then `TODO(products)`: list, pagination, `?keyword=` from the navbar search |
+| **Products** page | ✅ done (grid, pagination, search in the browser) | see `docs/HANDOFF.md` |
 | **Product details** | ⬜ | `TODO(product-details-1)` + `TODO(product-details)`: `:id` as `input()`, gallery, reviews tab |
 | **Brands** + Brand details | ⬜ | `TODO(brands-1)`, `TODO(brands)`, `TODO(brand-details-1)`, `TODO(brand-details)` |
-| **Categories** + Category details | ⬜ | `TODO(categories-1)`, `TODO(categories)`, `TODO(category-details)` (+ subcategory chips) |
+| **Categories** + Category details | 🟡 Categories page done; details left | `TODO(category-details)` (+ subcategory chips) |
 | **Cart:** display, add, remove, update quantity | ⬜ | `TODO(cart-models)` → `TODO(cart-1..4)` → `TODO(cart)`; navbar badge reads `CartService.count` |
 | **Wishlist:** display, add, remove | ⬜ | `TODO(wishlist-models)` → `TODO(wishlist-1..3)` → `TODO(wishlist)`; hearts on product cards |
 | **Payment:** cash + online (Stripe) | ⬜ | `TODO(order-models)` → `TODO(payment-1)` cash → `TODO(payment-2)` Stripe → `TODO(payment)` checkout page |
