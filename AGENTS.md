@@ -52,7 +52,7 @@ is done; features are `TODO(<tag>)` comments in the code, listed in `docs/TODO.m
 
 - Follow `.editorconfig` and `.prettierrc`. CSS only (no SCSS).
 - Standalone components, native control flow (`@if/@for/@switch`), `input()/output()` functions, `host` object instead of `@HostBinding/@HostListener`.
-- Accessible by default: WCAG AA, AXE-clean, semantic HTML, labelled controls.
+- No screen-reader support: the owner does not want `aria-*` attributes, `role=`, or screen-reader-only (`sr-only`) text anywhere. Do not add them. Plain semantic HTML is fine.
 
 ## Git
 

@@ -1,4 +1,4 @@
-<section class="relative" aria-label="Featured offers">
+<section class="relative">
   <div #slider class="swiper h-[400px]">
     <div class="swiper-wrapper">
       @for (slide of slides; track slide.title) {
@@ -32,17 +32,15 @@
   <button
     #prev
     type="button"
-    aria-label="Previous slide"
     class="absolute left-4 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary-600 shadow transition-colors hover:bg-white"
   >
-    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    <i class="fa-solid fa-chevron-left"></i>
   </button>
   <button
     #next
     type="button"
-    aria-label="Next slide"
     class="absolute right-4 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary-600 shadow transition-colors hover:bg-white"
   >
-    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    <i class="fa-solid fa-chevron-right"></i>
   </button>
 </section>

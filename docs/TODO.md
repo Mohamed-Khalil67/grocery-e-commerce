@@ -119,4 +119,4 @@ The task says to use as many endpoints as you can: after the main quests, go thr
 - `ng build` passes with no errors
 - no `any`, no `!`, no `as` casts — typed `http.get<T>()` everywhere
 - loading, error and empty states exist
-- works on a phone-width screen; icon buttons have `aria-label`
+- works on a phone-width screen

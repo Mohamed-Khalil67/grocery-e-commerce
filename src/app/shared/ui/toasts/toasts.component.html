@@ -1,4 +1,4 @@
-<div class="toast toast-top toast-end z-[70]" aria-live="polite">
+<div class="toast toast-top toast-end z-[70]">
   @for (toast of toastService.toasts(); track toast.id) {
     <div
       class="alert relative overflow-hidden text-sm shadow-lg"
@@ -9,10 +9,9 @@
       <button
         type="button"
         class="btn btn-ghost btn-xs btn-circle"
-        aria-label="Close notification"
         (click)="toastService.dismiss(toast.id)"
       >
-        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        <i class="fa-solid fa-xmark"></i>
       </button>
       <!-- time-out bar: shrinks over the same time the toast stays on screen -->
       <div

@@ -1,3 +1,104 @@
-<div class="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">
-  🚧 app-pagination — see <code>TODO(pagination)</code>
-</div>
+<!--
+  This template expects these names from pagination.component.ts:
+    currentPage()   : the page being shown (input, a number)
+    numberOfPages() : how many pages exist (input, a number)
+    pages()         : a computed list of the page numbers to SHOW, e.g. [4, 5, 6, 7, 8] (a window around the current page)
+    firstShown()    : the first number of that window (computed)
+    lastShown()     : the last number of that window (computed)
+  Every button is a link: [routerLink]="[]" means "the page I am on now", and the query param changes
+  ?page= (queryParamsHandling="merge" keeps the other params, like ?keyword=). There is nothing to emit:
+  the URL changes, the page reads it and loads the new page by itself.
+-->
+@if (numberOfPages() > 1) {
+  <nav class="mt-10 flex items-center justify-center gap-2">
+    <!-- Previous: a link, or a faded box on the first page -->
+    @if (currentPage() > 1) {
+      <!-- [routerLink]="[]" means staying on the same page
+       queryParamsHandling="merge" keep the query param in the url
+       -->
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ page: currentPage() - 1 }"
+        queryParamsHandling="merge"
+        class="flex h-10 items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium text-gray-700 transition hover:border-primary-600 hover:text-primary-600"
+      >
+        <i class="fa-solid fa-chevron-left text-xs"></i>
+        Previous
+      </a>
+    } @else {
+      <span
+        class="flex h-10 cursor-not-allowed items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium text-gray-700 opacity-40"
+      >
+        <i class="fa-solid fa-chevron-left text-xs"></i>
+        Previous
+      </span>
+    }
+
+    <!-- Page 1 and "..." when the window does not start at page 1 -->
+    @if (firstShown() > 1) {
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ page: 1 }"
+        queryParamsHandling="merge"
+        class="flex size-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-sm font-semibold text-gray-700 transition hover:border-primary-600 hover:text-primary-600"
+      >
+        1
+      </a>
+      @if (firstShown() > 2) {
+        <span class="px-1 text-gray-500">...</span>
+      }
+    }
+
+    <!-- The window of pages around the current one -->
+    @for (page of pages(); track page) {
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ page: page }"
+        queryParamsHandling="merge"
+        class="flex size-10 items-center justify-center rounded-lg border text-sm font-semibold transition"
+        [class]="
+          page === currentPage()
+            ? 'border-primary-600 bg-primary-600 text-white'
+            : 'border-gray-200 bg-white text-gray-700 hover:border-primary-600 hover:text-primary-600'
+        "
+      >
+        {{ page }}
+      </a>
+    }
+
+    <!-- "..." and the last page when the window does not reach the end -->
+    @if (lastShown() < numberOfPages()) {
+      @if (lastShown() < numberOfPages() - 1) {
+        <span class="px-1 text-gray-500">...</span>
+      }
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ page: numberOfPages() }"
+        queryParamsHandling="merge"
+        class="flex size-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-sm font-semibold text-gray-700 transition hover:border-primary-600 hover:text-primary-600"
+      >
+        {{ numberOfPages() }}
+      </a>
+    }
+
+    <!-- Next: a link, or a faded box on the last page -->
+    @if (currentPage() < numberOfPages()) {
+      <a
+        [routerLink]="[]"
+        [queryParams]="{ page: currentPage() + 1 }"
+        queryParamsHandling="merge"
+        class="flex h-10 items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium text-gray-700 transition hover:border-primary-600 hover:text-primary-600"
+      >
+        Next
+        <i class="fa-solid fa-chevron-right text-xs"></i>
+      </a>
+    } @else {
+      <span
+        class="flex h-10 cursor-not-allowed items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium text-gray-700 opacity-40"
+      >
+        Next
+        <i class="fa-solid fa-chevron-right text-xs"></i>
+      </span>
+    }
+  </nav>
+}

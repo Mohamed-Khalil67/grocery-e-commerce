@@ -9,7 +9,7 @@
 
           <div class="relative z-10">
             <div class="mb-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-sm">
-              <span aria-hidden="true">{{ banner.emoji }}</span>
+              <span>{{ banner.emoji }}</span>
               <span>{{ banner.badge }}</span>
             </div>
             <h3 class="mb-2 text-2xl font-bold md:text-3xl">{{ banner.title }}</h3>
@@ -25,7 +25,7 @@
               [class]="banner.buttonColor"
             >
               {{ banner.buttonLabel }}
-              <i class="fa-solid fa-arrow-right text-sm" aria-hidden="true"></i>
+              <i class="fa-solid fa-arrow-right text-sm"></i>
             </a>
           </div>
         </div>

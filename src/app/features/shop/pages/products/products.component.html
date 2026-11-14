@@ -1,5 +1,35 @@
-<section class="container mx-auto my-10 max-w-3xl rounded-2xl border border-dashed border-gray-300 p-8 text-center">
-  <p class="text-4xl" aria-hidden="true">🚧</p>
-  <h1 class="mt-2 text-2xl font-bold text-gray-800">All products</h1>
-  <p class="mt-2 text-gray-500">Not built yet — see <code>TODO(products)</code> in <code>products.component.ts</code></p>
+<!-- Breadcrumb: Home (added by the header itself) / All Products (no link: it is the current page) -->
+<app-page-header
+  title="All Products"
+  subtitle="Explore our complete product collection"
+  icon="box"
+  [crumbs]="[{ label: 'All Products' }]"
+/>
+
+<section class="container mx-auto px-4 py-10">
+  <!--
+    This page expects TWO things from products.component.ts:
+      `products`         : a resource with error() and value()
+                           (value() is the API reply: { results, metadata, data: Product[] })
+      `filteredProducts` : a computed signal with the Product[] to show (the products after the search word)
+    While the products load there is nothing to draw here: the loading interceptor already shows the ngx-spinner.
+  -->
+  @if (products.error()) {
+    <p class="rounded-lg bg-red-50 p-4 text-center text-red-600">Couldn't load the products. Please try again.</p>
+  } @else if (products.value(); as res) {
+    <p class="mb-6 text-gray-600">Showing {{ filteredProducts().length }} products</p>
+
+    @if (filteredProducts().length > 0) {
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+        @for (product of filteredProducts(); track product._id) {
+          <app-product-card [product]="product" />
+        }
+      </div>
+    } @else {
+      <p class="rounded-lg bg-gray-50 p-10 text-center text-gray-500">No products match your search.</p>
+    }
+
+    <!-- The page buttons are links that change ?page= in the URL: nothing else is needed from the TypeScript -->
+    <app-pagination [currentPage]="res.metadata.currentPage" [numberOfPages]="res.metadata.numberOfPages" />
+  }
 </section>

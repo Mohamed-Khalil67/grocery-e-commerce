@@ -33,7 +33,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
     finalize(() => {
       pending--;
       if (pending === 0) {
-        spinner.hide().then(() => console.log('finished in'));
+        spinner.hide().then(() => console.log('spinner finished'));
       }
     }),
   );

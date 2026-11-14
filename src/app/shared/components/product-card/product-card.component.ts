@@ -34,7 +34,8 @@ export class ProductCardComponent {
   /** Percent off, or 0 when the product isn't on sale. */
   protected readonly discountPercent = computed(() => {
     const { price, priceAfterDiscount } = this.product();
-    if (priceAfterDiscount === undefined) {
+    // the API sends priceAfterDiscount: 0 for products with no discount, so 0 means "no sale" too
+    if (!priceAfterDiscount) {
       return 0;
     }
     return Math.round((1 - priceAfterDiscount / price) * 100);

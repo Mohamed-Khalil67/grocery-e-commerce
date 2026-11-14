@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
+import {PageHeaderComponent} from '../../../../shared/ui/page-header/page-header.component';
+import {Product} from '../../../../core/models/product.interface';
+import {Category} from '../../../../core/models/category.interface';
+import {CategoryService} from '../../services/category.service';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {CategoryCardComponent} from '../../components/category-card/category-card.component';
 
 /**
  * 🎯 TODO(categories) — Categories
@@ -24,9 +30,21 @@ import { Component } from '@angular/core';
  * Stuck? ask "hint for TODO(categories)" · done? ask "review TODO(categories)".
  */
 @Component({
-  imports: [],
+  imports: [
+    PageHeaderComponent,
+    CategoryCardComponent
+  ],
   selector: 'app-categories',
   styleUrl: './categories.component.css',
   templateUrl: './categories.component.html',
 })
-export class CategoriesComponent {}
+export class CategoriesComponent{
+  private readonly categoryService = inject(CategoryService);
+
+  // rxResource replaces the manual signal, ngOnInit, and .subscribe()
+  protected readonly categories = rxResource({
+    stream: () => this.categoryService.getCategories(),
+  });
+
+}
+

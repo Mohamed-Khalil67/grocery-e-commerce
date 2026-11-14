@@ -4,19 +4,19 @@
     <div class="hidden lg:block">
       <div class="space-y-6 text-center">
         <div class="relative flex h-96 items-center justify-center overflow-hidden rounded-2xl bg-primary-100 shadow-lg">
-          <i class="fa-solid fa-apple-whole absolute left-[10%] top-[12%] animate-float text-4xl text-primary-300" aria-hidden="true"></i>
-          <i class="fa-solid fa-carrot absolute right-[12%] top-[20%] animate-float text-3xl text-orange-300" aria-hidden="true"></i>
-          <i class="fa-solid fa-lemon absolute bottom-[15%] left-[14%] animate-float text-3xl text-yellow-300" aria-hidden="true"></i>
-          <i class="fa-solid fa-seedling absolute bottom-[12%] right-[14%] animate-float text-4xl text-primary-300" aria-hidden="true"></i>
-          <i class="fa-solid fa-cart-shopping text-9xl text-primary-600" aria-hidden="true"></i>
+          <i class="fa-solid fa-apple-whole absolute left-[10%] top-[12%] animate-float text-4xl text-primary-300"></i>
+          <i class="fa-solid fa-carrot absolute right-[12%] top-[20%] animate-float text-3xl text-orange-300"></i>
+          <i class="fa-solid fa-lemon absolute bottom-[15%] left-[14%] animate-float text-3xl text-yellow-300"></i>
+          <i class="fa-solid fa-seedling absolute bottom-[12%] right-[14%] animate-float text-4xl text-primary-300"></i>
+          <i class="fa-solid fa-cart-shopping text-9xl text-primary-600"></i>
         </div>
         <div class="space-y-4">
           <h2 class="text-3xl font-bold text-gray-800">FreshCart - Your One-Stop Shop for Fresh Products</h2>
           <p class="text-lg text-gray-600">Join thousands of happy customers who trust FreshCart for their daily grocery needs</p>
           <div class="flex items-center justify-center space-x-8 text-sm text-gray-500">
-            <div><i class="fa-solid fa-truck mr-2 text-primary-600" aria-hidden="true"></i>Free Delivery</div>
-            <div><i class="fa-solid fa-shield-halved mr-2 text-primary-600" aria-hidden="true"></i>Secure Payment</div>
-            <div><i class="fa-regular fa-clock mr-2 text-primary-600" aria-hidden="true"></i>24/7 Support</div>
+            <div><i class="fa-solid fa-truck mr-2 text-primary-600"></i>Free Delivery</div>
+            <div><i class="fa-solid fa-shield-halved mr-2 text-primary-600"></i>Secure Payment</div>
+            <div><i class="fa-regular fa-clock mr-2 text-primary-600"></i>24/7 Support</div>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
                 class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 pl-12 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
                 [formField]="loginForm.email"
               />
-              <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true"></i>
+              <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
             </div>
             @if (loginForm.email().touched()) {
               @for (error of loginForm.email().errors(); track error.kind) {
@@ -75,14 +75,13 @@
                 class="w-full rounded-xl border-2 border-gray-200 px-4 py-3 pl-12 pr-12 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
                 [formField]="loginForm.password"
               />
-              <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true"></i>
+              <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
               <button
                 type="button"
                 class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
                 (click)="showPassword.set(!showPassword())"
               >
-                <i class="fa-regular" [class]="showPassword() ? 'fa-eye-slash' : 'fa-eye'" aria-hidden="true"></i>
+                <i class="fa-regular" [class]="showPassword() ? 'fa-eye-slash' : 'fa-eye'"></i>
               </button>
             </div>
             @if (loginForm.password().touched()) {

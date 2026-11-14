@@ -1,8 +1,9 @@
-import {Component, effect, inject, input, numberAttribute} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {httpResource} from '@angular/common/http';
-import {ApiListResponse} from '../../../../core/models/api-response.interface';
-import {Product} from '../../../../core/models/product.interface';
+import { Component, computed, effect, inject, input, numberAttribute } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
+import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
+import { ProductService } from '../../services/product.service';
+import {PaginationComponent} from '../../../../shared/ui/pagination/pagination.component';
 
 /**
  * 🎯 TODO(products) — All products
@@ -32,39 +33,32 @@ import {Product} from '../../../../core/models/product.interface';
  * Stuck? ask "hint for TODO(products)" · done? ask "review TODO(products)".
  */
 @Component({
-  imports: [],
+  imports: [PageHeaderComponent, ProductCardComponent, PaginationComponent],
   selector: 'app-products',
   styleUrl: './products.component.css',
   templateUrl: './products.component.html',
 })
 export class ProductsComponent {
-  // the URL is  /products?keyword=angular&page=2
-  readonly keyword = input('');
-  readonly page = input(1, { transform: numberAttribute });     // "2" arrives as text; this makes it the number 2
+  private readonly productService = inject(ProductService);
 
-  protected readonly products = httpResource<ApiListResponse<Product>>(() => {
-    // keyword is added only when the user typed one: an empty keyword= makes the API return 0 products
-    const params: Record<string, string | number> = { page: this.page() };
-    if (this.keyword()) {
-      params['keyword'] = this.keyword();
-    }
-    return { url: '/products', params };
+  // The URL is  /products?page=2&keyword=shawl  (withComponentInputBinding puts those values in these inputs).
+  // When the URL does not have them, the router sets the inputs to `undefined`, so each input has a `transform`
+  // that gives it a safe value: page falls back to 1, keyword to ''.
+  readonly page = input(1, { transform: (value: string | undefined) => numberAttribute(value, 1) });
+  readonly keyword = input('', { transform: (value: string | undefined) => value ?? '' });
+
+  // ONE request: the products of the current page (40). It runs again by itself when `page` changes.
+  // The API has no search, so `keyword` is NOT sent to it.
+  protected readonly products = rxResource({
+    params: () => this.page(),
+    stream: ({ params }) => this.productService.getProducts(params),
   });
 
-
-  constructor() {
-    // An effect re-runs whenever a signal it reads changes.
-    // Here it reads `status()` and `value()`, so it logs when the request starts, finishes or fails.
-    effect(() => {
-      console.log('[products] status:', this.products.status());
-      const res = this.products.value();
-      if (res) {
-        console.log('[products] loaded →', res.data.length, 'items. page', res.metadata.currentPage, 'of', res.metadata.numberOfPages);
-        console.log('[home] first product →', res.data[0]?.title, '| price:', res.data[0]?.price);
-      }
-      if (this.products.error()) {
-        console.log('[products] FAILED →', this.products.error());
-      }
-    });
-  }
+  // The search happens here, in the browser: the same loaded products, filtered by title.
+  // It is not a second request: it recalculates when the products or the keyword change.
+  protected readonly filteredProducts = computed(() => {
+    const products = this.products.value()?.data ?? [];
+    const word = this.keyword().toLowerCase();
+    return products.filter((product) => product.title.toLowerCase().includes(word));
+  });
 }

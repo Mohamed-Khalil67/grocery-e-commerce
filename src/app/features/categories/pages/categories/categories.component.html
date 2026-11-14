@@ -9,21 +9,12 @@
 <section class="container mx-auto px-4 py-10">
   <!--
     This page expects ONE thing from categories.component.ts:
-      `categories` : a resource with isLoading(), error() and value()
+      `categories` : a resource with error() and value()
     The value is the API reply: { results, metadata, data: Category[] }
+    While the categories load there is nothing to draw here: the loading interceptor already shows the ngx-spinner.
   -->
-  @if (categories.isLoading()) {
-    <!-- loading: grey placeholder cards in the same grid -->
-    <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5" aria-busy="true">
-      @for (placeholder of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track placeholder) {
-        <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-100">
-          <div class="skeleton mb-4 aspect-square w-full"></div>
-          <div class="skeleton mx-auto h-5 w-24"></div>
-        </div>
-      }
-    </div>
-  } @else if (categories.error()) {
-    <p class="rounded-lg bg-red-50 p-4 text-center text-red-600" role="alert">Couldn't load the categories. Please try again.</p>
+  @if (categories.error()) {
+    <p class="rounded-lg bg-red-50 p-4 text-center text-red-600">Couldn't load the categories. Please try again.</p>
   } @else if (categories.value(); as res) {
     <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
       @for (category of res.data; track category._id) {

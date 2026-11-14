@@ -108,8 +108,7 @@ does. That's why one card works on home, products, brand-details, category-detai
 - Tailwind v4 utilities + DaisyUI components: `btn`, `card`, `input`, `navbar`, `menu`, `dropdown`, `badge`,
   `indicator`, `alert`, `toast`, `loading`, `progress`, `skeleton`, `modal`, `join` (pagination).
 - Theme colors in `src/styles.css` (`--color-primary: #16a34a`).
-- Icons: Font Awesome (`<i class="fa-solid fa-cart-shopping" aria-hidden="true">`). Icon-only buttons
-  need `aria-label`.
+- Icons: Font Awesome (`<i class="fa-solid fa-cart-shopping">`). No `aria-*` attributes or screen-reader text anywhere (owner's choice).
 - The initial CSS is ~200 kB raw (~33 kB gzipped) because of Font Awesome + DaisyUI → `ng build` shows a
   budget **warning** (not an error). Fine for now.
 
