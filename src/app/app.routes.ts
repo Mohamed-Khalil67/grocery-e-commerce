@@ -9,7 +9,7 @@ import { guestGuard } from './core/auth/guards/guest.guard';
  *
  * Public:  home, products, brands, categories (+ details), cart, wishlist
  *          (the demo lets guests open cart / wishlist and shows an empty state)
- * Private: checkout, profile, profile/orders  → authGuard (redirects to /login?callbackUrl=…)
+ * Private: checkout, profile, profile/orders  → authGuard (redirects to /login)
  *
  * Every page is lazy loaded, so each one is its own JS chunk.
  */

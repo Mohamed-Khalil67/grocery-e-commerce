@@ -1,14 +1,21 @@
 import { inject, Service } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Order } from '../models/order.interface';
 
 /**
  * Orders API.
  *
- *   GET /orders/user/:userId → that user's orders   ·   GET /orders → all orders (optional)
+ *   GET /orders/user/:userId → that user's orders (an array, not wrapped in { data })
+ *
+ * The user id comes from the login token (see decodeToken in core/utils/token.ts: payload.id).
+ * Reply shape is from the docs, not verified with a login yet.
  */
 @Service()
 export class OrderService {
   private readonly http = inject(HttpClient);
 
-  // TODO(orders-1): getUserOrders(userId) — userId comes from AuthService.verifyToken()
+  getUserOrders(userId: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`/orders/user/${userId}`);
+  }
 }

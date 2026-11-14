@@ -48,18 +48,8 @@
   --color-primary-800: var(--color-green-800);
   --color-primary-900: var(--color-green-900);
 
+  /* floating icons: used by the login, forgot-password and 404 pages, so it stays global */
   --animate-float: float 6s ease-in-out infinite;
-  --animate-toast-timer: toast-timer linear forwards;
-
-  /* the toast's time-out bar shrinks from full width to nothing */
-  @keyframes toast-timer {
-    from {
-      width: 100%;
-    }
-    to {
-      width: 0;
-    }
-  }
 
   @keyframes float {
     0%,

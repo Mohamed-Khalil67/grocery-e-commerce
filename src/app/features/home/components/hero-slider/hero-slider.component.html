@@ -1,3 +1,48 @@
-<div class="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">
-  🚧 app-hero-slider — see <code>TODO(home-hero)</code>
-</div>
+<section class="relative" aria-label="Featured offers">
+  <div #slider class="swiper h-[400px]">
+    <div class="swiper-wrapper">
+      @for (slide of slides; track slide.title) {
+        <div class="swiper-slide">
+          <!-- 1) your photo + 2) green tint on top, so the white text stays readable -->
+          <div class="relative h-full bg-primary-700 bg-cover bg-center" style="background-image: url('/images/hero/home-slider.png')">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-500/90 to-primary-400/50"></div>
+            <div class="container relative mx-auto flex h-full flex-col justify-center px-4 text-white">
+              <h2 class="mb-2 max-w-md text-3xl font-bold leading-tight md:text-4xl">{{ slide.title }}</h2>
+              <p class="mb-6 text-sm md:text-base">{{ slide.subtitle }}</p>
+              <div class="flex gap-3">
+                <a
+                  [routerLink]="slide.primary.link"
+                  class="rounded-lg bg-white px-6 py-2 text-sm font-semibold text-primary-600 transition-colors hover:bg-gray-100"
+                  >{{ slide.primary.label }}</a
+                >
+                <a
+                  [routerLink]="slide.secondary.link"
+                  class="rounded-lg border border-white px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                  >{{ slide.secondary.label }}</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    <div #dots class="swiper-pagination"></div>
+  </div>
+
+  <button
+    #prev
+    type="button"
+    aria-label="Previous slide"
+    class="absolute left-4 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary-600 shadow transition-colors hover:bg-white"
+  >
+    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+  </button>
+  <button
+    #next
+    type="button"
+    aria-label="Next slide"
+    class="absolute right-4 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary-600 shadow transition-colors hover:bg-white"
+  >
+    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+  </button>
+</section>

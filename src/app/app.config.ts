@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
       routes,
       // route params (:id) and query params arrive as component inputs: id = input.required<string>()
       withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' , anchorScrolling: "enabled"}),
     ),
     provideHttpClient(
       // ORDER MATTERS: base-url first (so the others see the full URL), error last (closest to the response)

@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, effect, inject, input, numberAttribute} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {httpResource} from '@angular/common/http';
+import {ApiListResponse} from '../../../../core/models/api-response.interface';
+import {Product} from '../../../../core/models/product.interface';
 
 /**
  * 🎯 TODO(products) — All products
@@ -33,4 +37,34 @@ import { Component } from '@angular/core';
   styleUrl: './products.component.css',
   templateUrl: './products.component.html',
 })
-export class ProductsComponent {}
+export class ProductsComponent {
+  // the URL is  /products?keyword=angular&page=2
+  readonly keyword = input('');
+  readonly page = input(1, { transform: numberAttribute });     // "2" arrives as text; this makes it the number 2
+
+  protected readonly products = httpResource<ApiListResponse<Product>>(() => {
+    // keyword is added only when the user typed one: an empty keyword= makes the API return 0 products
+    const params: Record<string, string | number> = { page: this.page() };
+    if (this.keyword()) {
+      params['keyword'] = this.keyword();
+    }
+    return { url: '/products', params };
+  });
+
+
+  constructor() {
+    // An effect re-runs whenever a signal it reads changes.
+    // Here it reads `status()` and `value()`, so it logs when the request starts, finishes or fails.
+    effect(() => {
+      console.log('[products] status:', this.products.status());
+      const res = this.products.value();
+      if (res) {
+        console.log('[products] loaded →', res.data.length, 'items. page', res.metadata.currentPage, 'of', res.metadata.numberOfPages);
+        console.log('[home] first product →', res.data[0]?.title, '| price:', res.data[0]?.price);
+      }
+      if (this.products.error()) {
+        console.log('[products] FAILED →', this.products.error());
+      }
+    });
+  }
+}

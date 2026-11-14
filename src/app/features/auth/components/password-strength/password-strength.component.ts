@@ -12,8 +12,7 @@ export class PasswordStrengthComponent {
   /** 0–4: one point each for length ≥ 8, a digit, an uppercase letter, a symbol. */
   protected readonly score = computed(() => {
     const value = this.password();
-    const checks = [value.length >= 8, /\d/.test(value), /[A-Z]/.test(value), /[^A-Za-z0-9]/.test(value)];
-    return checks.filter(Boolean).length;
+    return [value.length >= 8, /\d/.test(value), /[A-Z]/.test(value), /[^A-Za-z0-9]/.test(value)].filter(Boolean).length;
   });
 
   protected readonly labels = ['Weak', 'Weak', 'Fair', 'Good', 'Strong'];

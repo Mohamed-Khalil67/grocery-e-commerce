@@ -92,6 +92,11 @@
             }
           </div>
 
+          <label class="flex items-center">
+            <input type="checkbox" class="size-4 accent-primary-600" [formField]="loginForm.rememberMe" />
+            <span class="ml-3 text-sm text-gray-700">Keep me signed in</span>
+          </label>
+
           <button
             type="submit"
             class="w-full rounded-xl bg-primary-600 px-4 py-3 text-lg font-semibold text-white shadow-lg transition-all hover:bg-primary-700 hover:shadow-xl disabled:opacity-50"

@@ -26,8 +26,19 @@ export interface AuthResponse {
   readonly token: string;
 }
 
+/** Response of POST /auth/forgotPasswords and POST /auth/verifyResetCode (we only care that they succeed). */
+export interface ApiStatusResponse {
+  readonly status?: string;
+  readonly statusMsg?: string;
+  readonly message?: string;
+}
+
+/** Response of PUT /auth/resetPassword. */
+export interface ResetPasswordResponse {
+  readonly token: string;
+}
+
 /*
  * TODO(auth-models): add types for the other auth endpoints (look at the real JSON in DevTools → Network):
- *   POST /auth/forgotPasswords · POST /auth/verifyResetCode · PUT /auth/resetPassword
  *   PUT /users/changeMyPassword · PUT /users/updateMe · GET /auth/verifyToken → { decoded: { id, name, role } }
  */

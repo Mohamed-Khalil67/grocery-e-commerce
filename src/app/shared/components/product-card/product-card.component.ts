@@ -34,7 +34,7 @@ export class ProductCardComponent {
   /** Percent off, or 0 when the product isn't on sale. */
   protected readonly discountPercent = computed(() => {
     const { price, priceAfterDiscount } = this.product();
-    if (priceAfterDiscount === undefined || priceAfterDiscount >= price) {
+    if (priceAfterDiscount === undefined) {
       return 0;
     }
     return Math.round((1 - priceAfterDiscount / price) * 100);

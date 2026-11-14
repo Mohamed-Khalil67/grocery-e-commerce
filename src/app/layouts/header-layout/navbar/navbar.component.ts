@@ -56,12 +56,8 @@ export class NavbarComponent {
   /** Search box → /products?keyword=… (TODO(products) reads the `keyword` query param). */
   protected search(event: Event, keyword: string): void {
     event.preventDefault();
-    const trimmed = keyword.trim();
-    if (trimmed === '') {
-      return;
-    }
     this.closeMenu();
-    void this.router.navigate(['/products'], { queryParams: { keyword: trimmed } });
+    this.router.navigate(['/products'], { queryParams: { keyword } });
   }
 
   protected signOut(): void {

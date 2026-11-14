@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 /**
@@ -8,9 +8,8 @@ import { AuthService } from '../services/auth.service';
  *   user opens /profile/orders
  *        │
  *   logged in? ── yes ──▶ ✅ true (show the page)
- *        └────── no  ──▶ ⛔ /login?callbackUrl=%2Fprofile%2Forders   (same as the demo)
+ *        └────── no  ──▶ ⛔ /login
  *
- * LoginComponent reads `callbackUrl` and sends the user back there after signing in.
  * Returning a UrlTree (instead of calling router.navigate) lets the router cancel
  * this navigation and start the redirect cleanly.
  */

@@ -1,3 +1,35 @@
-<div class="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">
-  🚧 app-category-slider — see <code>TODO(home-categories)</code>
-</div>
+<section class="py-10">
+  <div class="container mx-auto px-4">
+    <app-section-title plain="Shop By" accent="Category" link="/categories" linkLabel="View All Categories" />
+
+    @if (categories.isLoading()) {
+      <!-- loading: same grid, grey pulsing circles -->
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6" aria-busy="true">
+        @for (placeholder of placeholders; track placeholder) {
+          <div class="rounded-lg bg-white p-4 shadow-sm">
+            <div class="skeleton mx-auto mb-3 size-20 rounded-full"></div>
+            <div class="skeleton mx-auto h-4 w-20"></div>
+          </div>
+        }
+      </div>
+    } @else if (categories.error()) {
+      <p class="rounded-lg bg-red-50 p-4 text-center text-red-600" role="alert">Couldn't load the categories.</p>
+    } @else if (categories.value(); as res) {
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+        @for (category of res.data; track category._id) {
+          <a
+            [routerLink]="['/categories', category._id]"
+            class="group cursor-pointer rounded-lg bg-white p-4 text-center shadow-sm transition hover:shadow-md"
+          >
+            <div
+              class="mx-auto mb-3 flex size-20 items-center justify-center overflow-hidden rounded-full bg-primary-100 transition group-hover:bg-primary-200"
+            >
+              <img [src]="category.image" [alt]="category.name" width="300" height="300" loading="lazy" class="size-full object-cover" />
+            </div>
+            <h3 class="font-medium">{{ category.name }}</h3>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>

@@ -28,6 +28,7 @@
     "ngx-spinner": "^22.0.1",
     "postcss": "^8.5.32",
     "rxjs": "~7.8.0",
+    "swiper": "^14.4.0",
     "tailwindcss": "^4.3.3",
     "tslib": "^2.3.0"
   },

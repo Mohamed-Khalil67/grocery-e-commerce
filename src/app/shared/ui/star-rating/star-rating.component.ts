@@ -9,8 +9,7 @@ import { Component, computed, input } from '@angular/core';
 export class StarRatingComponent {
   readonly rating = input.required<number>();
 
-  protected readonly stars = computed<readonly boolean[]>(() => {
-    const filled = Math.round(this.rating());
-    return [1, 2, 3, 4, 5].map((position) => position <= filled);
-  });
+  protected readonly stars = computed<readonly boolean[]>(() =>
+    [1, 2, 3, 4, 5].map((position) => position <= Math.round(this.rating())),
+  );
 }

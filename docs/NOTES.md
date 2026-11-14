@@ -25,7 +25,8 @@ export const authGuard: CanActivateFn = () =>
 ```
 
 - social-media read `localStorage` directly in the guard. The guard asks `AuthService`, which keeps the token in `localStorage` and in a signal.
-- authGuard redirects to `/login?callbackUrl=<where you were going>`; LoginComponent reads it as an `input()` and sends the user back.
+- authGuard redirects to `/login`; after signing in, LoginComponent goes to `/`.
+- "Keep me signed in": checked → token in `localStorage`, unchecked → `sessionStorage` (read from both, cleared from both).
 - `guestGuard` is the mirror: logged-in users cannot see login/signup.
 
 ## 3. Interceptors
@@ -39,9 +40,9 @@ provideHttpClient(withInterceptors([baseUrlInterceptor, authInterceptor, loading
 | Interceptor | Job | Detail worth remembering |
 |---|---|---|
 | base-url | `'/products'` → full API URL | only touches URLs starting with `/` |
-| auth | adds `token` header | Route API wants a raw `token` header, not `Authorization: Bearer`. Only for the API host — never leak the token to other sites |
+| auth | adds `token` header | Route API wants a raw `token` header, not `Authorization: Bearer`. Add an origin check the day you call another site |
 | loading | show / hide the spinner | `finalize()` runs on success, error AND cancel. |
-| error | 401 → sign out | **re-throws** the error so the page can still show its own message |
+| error | every failure → toast | **re-throws** the error so the page can still show its own message |
 
 - Requests are immutable → `req.clone({ setHeaders: { token } })`.
 - **Order matters**: base-url first so the others see the full URL.
@@ -115,3 +116,18 @@ does. That's why one card works on home, products, brand-details, category-detai
 ## 10. No unit tests
 
 By choice there are no spec files (`skipTests: true` in angular.json). Check your work with `ng build` and by using the app.
+
+## 11. Forgot password: a stepper made of `@if`s
+
+The forgot-password page shows 3 forms, one at a time, with a `step` signal (`1 | 2 | 3`) and `@if (step() === 1)`.
+- The 3 circles at the top are buttons: click an earlier one to go back; later ones are disabled.
+- The 3 Signal Forms live in the component class, so what you typed is still there when you go back.
+- The slide-in effect is a CSS keyframe in `forgot-password.component.css`.
+- Tried and dropped: PrimeNG 22 (needs a license key, shows an "Invalid PrimeUI License" badge) and Angular Material's stepper (needs `viewChild` + `completed` to move forward from code).
+
+## 12. Where CSS lives
+
+- `src/styles.css` has only global things: fonts, Tailwind, the DaisyUI theme, the `primary-*` colors, the body style, and animations shared by several pages (`float`: login, forgot-password, 404).
+- CSS that belongs to one component sits in that component's `.css` file: the toast time-out bar (`toasts.component.css`), the step slide-in (`forgot-password.component.css`), Swiper's styles and white dots (`hero-slider.component.css`).
+- Swiper creates its dots at runtime, so `HeroSliderComponent` uses `ViewEncapsulation.None`; otherwise Angular's scoped styles would not reach them.
+- The `anyComponentStyle` budget in `angular.json` is 12 kB / 16 kB because Swiper's own CSS is about 10 kB.

@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { email, form, FormField, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
@@ -27,10 +27,7 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
 
-  /** ?callbackUrl=… (set by authGuard) — bound from the URL by withComponentInputBinding(). */
-  readonly callbackUrl = input<string>();
-
-  protected readonly model = signal({ email: '', password: '' });
+  protected readonly model = signal({ email: '', password: '', rememberMe: false });
 
   protected readonly loginForm = form(this.model, (path) => {
     required(path.email, { message: 'Email is required' });
@@ -45,11 +42,11 @@ export class LoginComponent {
 
     await submit(this.loginForm, async () => {
       try {
-        const { email, password } = this.model();
+        const { email, password, rememberMe } = this.model();
         const res = await firstValueFrom(this.auth.signIn({ email, password }));
-        this.auth.saveSession(res.token, res.user.name);
+        this.auth.saveSession(res.token, res.user.name, rememberMe);
         this.toast.success('Welcome back!');
-        await this.router.navigateByUrl(this.callbackUrl() ?? '/');
+        await this.router.navigate(['/']);
       } catch {
         // nothing to do: the error interceptor already showed the error as a toast
       }

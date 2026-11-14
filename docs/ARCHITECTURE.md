@@ -37,9 +37,9 @@ src/app/
 │
 ├── core/                       # singletons used by everything
 │   ├── auth/
-│   │   ├── guards/             # auth.guard.ts (→ /login?callbackUrl=…) · guest.guard.ts           ✅
+│   │   ├── guards/             # auth.guard.ts (→ /login) · guest.guard.ts           ✅
 │   │   └── services/           # auth.service.ts: token signal, signIn/Up/Out         ✅
-│   ├── interceptors/           # base-url · auth (token header) · loading · error (toast + 401)    ✅
+│   ├── interceptors/           # base-url · auth (token header) · loading · error (toast)        ✅
 │   ├── models/                 # shared API shapes: api-response, product, brand, category         ✅
 │   ├── services/toast.service.ts  # pop-up messages (toast.success / toast.error)                 ✅
 │   └── utils/api-error.ts      # getApiErrorMessage(err), used by the error interceptor          ✅
@@ -111,9 +111,9 @@ src/app/
 component ─▶ service: http.get<ApiListResponse<Product>>('/products')
               ▼ interceptors (order set in app.config.ts)
    1 baseUrl   '/products' → 'https://ecommerce.routemisr.com/api/v1/products'
-   2 auth      adds header  token: <jwt>   (Route API host only)
+   2 auth      adds header  token: <jwt>   (when logged in)
    3 loading   NgxSpinnerService show() / hide() → full-screen spinner
-   4 error     every failure → toast with the message; 401 while logged in → also signOut(); always re-throws
+   4 error     every failure → toast with the message; always re-throws
               ▼
            Route API ─▶ typed response
 ```

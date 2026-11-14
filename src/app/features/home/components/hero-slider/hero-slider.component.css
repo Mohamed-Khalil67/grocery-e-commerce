@@ -1,0 +1,9 @@
+/* Swiper's own styles (only loaded with this component) */
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+
+/* white dots */
+.swiper {
+  --swiper-pagination-color: #fff;
+  --swiper-pagination-bullet-inactive-color: #fff;
+}

@@ -25,15 +25,27 @@ export interface Product {
 }
 
 /**
- * Query params GET /products accepts.
- * TODO(products-2): use this when you add sorting / filtering / paging to the products page.
- * Hint: `brand` and `category[in]` filter by id, `sort` takes `price` or `-price`.
+ * Query params GET /products accepts (from the Postman docs).
+ * Every field is optional: send only what you need.
+ *
+ *   page, limit        paging (the API default is 40 per page)
+ *   sort               'price' or '-price' (the minus means high to low), 'sold', '-sold', '-ratingsAverage'
+ *   brand              a brand id
+ *   category[in]       a category id
+ *   price[gte/lte]     price range (greater / less than or equal)
+ *   fields             choose which fields come back, e.g. 'title,price'
+ *   keyword            documented, but the API returns 0 products for it, so we do not use it
+ *
+ * TODO(products-2): use sort / brand / category / price on the products page.
  */
-export interface ProductQuery {
+export type ProductQuery = {
   readonly page?: number;
   readonly limit?: number;
   readonly sort?: 'price' | '-price' | 'sold' | '-sold' | '-ratingsAverage';
   readonly keyword?: string;
   readonly brand?: string;
   readonly 'category[in]'?: string;
-}
+  readonly 'price[gte]'?: number;
+  readonly 'price[lte]'?: number;
+  readonly fields?: string;
+};
