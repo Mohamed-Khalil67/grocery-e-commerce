@@ -1,3 +1,20 @@
-<div class="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">
-  🚧 app-subcategory-chips — see <code>TODO(subcategory-chips)</code>
+<div class="flex flex-wrap gap-2">
+  <button
+    type="button"
+    class="rounded-full border px-4 py-1.5 text-sm transition"
+    [class]="selectedId() === undefined ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300 bg-white text-gray-700 hover:border-green-500'"
+    (click)="selected.emit(undefined)"
+  >
+    All
+  </button>
+  @for (sub of subcategories(); track sub._id) {
+    <button
+      type="button"
+      class="rounded-full border px-4 py-1.5 text-sm transition"
+      [class]="selectedId() === sub._id ? 'border-green-600 bg-green-600 text-white' : 'border-gray-300 bg-white text-gray-700 hover:border-green-500'"
+      (click)="selected.emit(sub._id)"
+    >
+      {{ sub.name }}
+    </button>
+  }
 </div>

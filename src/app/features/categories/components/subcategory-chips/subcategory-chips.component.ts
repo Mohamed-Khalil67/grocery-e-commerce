@@ -1,17 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { Subcategory } from '../../../../core/models/category.interface';
 
-/**
- * 🎯 TODO(subcategory-chips) — SubcategoryChips
- *
- * Chips for a category's subcategories; emits the selected one.
- *
- * Where: categories/components/subcategory-chips
- * Stuck? ask "hint for TODO(subcategory-chips)" · done? ask "review TODO(subcategory-chips)".
- */
+/** Chips for a category's subcategories; emits the selected id (or undefined for "All"). */
 @Component({
   imports: [],
   selector: 'app-subcategory-chips',
   styleUrl: './subcategory-chips.component.css',
   templateUrl: './subcategory-chips.component.html',
 })
-export class SubcategoryChipsComponent {}
+export class SubcategoryChipsComponent {
+  readonly subcategories = input.required<readonly Subcategory[]>();
+  readonly selectedId = input<string | undefined>(undefined);
+
+  readonly selected = output<string | undefined>();
+}

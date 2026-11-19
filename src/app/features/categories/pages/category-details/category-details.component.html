@@ -1,5 +1,38 @@
-<section class="container mx-auto my-10 max-w-3xl rounded-2xl border border-dashed border-gray-300 p-8 text-center">
-  <p class="text-4xl">🚧</p>
-  <h1 class="mt-2 text-2xl font-bold text-gray-800">Category details</h1>
-  <p class="mt-2 text-gray-500">Not built yet — see <code>TODO(category-details)</code> in <code>category-details.component.ts</code></p>
-</section>
+@if (category.error()) {
+  <p class="container mx-auto my-10 rounded-lg bg-red-50 p-4 text-center text-red-600">Couldn't load this category.</p>
+} @else if (category.value(); as res) {
+  <app-page-header
+    [title]="res.data.name"
+    subtitle="Browse products in this category"
+    icon="layer-group"
+    [crumbs]="[{ label: 'Categories', link: '/categories' }, { label: res.data.name }]"
+  />
+
+  <section class="container mx-auto px-4 py-10">
+    @if (subcategories().length > 0) {
+      <div class="mb-8">
+        <app-subcategory-chips
+          [subcategories]="subcategories()"
+          [selectedId]="selectedSub()"
+          (selected)="selectedSub.set($event)"
+        />
+      </div>
+    }
+
+    @if (products.error()) {
+      <p class="rounded-lg bg-red-50 p-4 text-center text-red-600">Couldn't load the products. Please try again.</p>
+    } @else if (products.value()) {
+      <p class="mb-6 text-gray-600">Showing {{ visibleProducts().length }} products</p>
+
+      @if (visibleProducts().length > 0) {
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+          @for (product of visibleProducts(); track product._id) {
+            <app-product-card [product]="product" />
+          }
+        </div>
+      } @else {
+        <p class="rounded-lg bg-gray-50 p-10 text-center text-gray-500">No products in this category yet.</p>
+      }
+    }
+  </section>
+}
