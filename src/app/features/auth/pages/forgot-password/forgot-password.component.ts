@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { email, form, FormField, pattern, required, submit, validate } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../core/auth/services/auth.service';
-import { ToastService } from '../../../../core/services/toast.service';
+import { ToastrService } from 'ngx-toastr';
 import { decodeToken } from '../../../../core/utils/token';
 import { PasswordResetService } from '../../services/password-reset.service';
 
@@ -31,7 +31,7 @@ export class ForgotPasswordComponent {
   private readonly reset = inject(PasswordResetService);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly toast = inject(ToastService);
+  private readonly toast = inject(ToastrService);
 
   // Which step is shown: 1 = email, 2 = code, 3 = new password.
   protected readonly step = signal<1 | 2 | 3>(1);

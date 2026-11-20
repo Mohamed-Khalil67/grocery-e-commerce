@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { email, form, FormField, minLength, pattern, required, submit, validate } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../core/auth/services/auth.service';
-import { ToastService } from '../../../../core/services/toast.service';
+import { ToastrService } from 'ngx-toastr';
 import { SocialButtonsComponent } from '../../components/social-buttons/social-buttons.component';
 import { PasswordStrengthComponent } from '../../components/password-strength/password-strength.component';
 
@@ -16,7 +16,7 @@ import { PasswordStrengthComponent } from '../../components/password-strength/pa
 export class RegisterComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly toast = inject(ToastService);
+  private readonly toast = inject(ToastrService);
 
   protected readonly model = signal({
     name: '',

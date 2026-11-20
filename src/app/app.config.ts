@@ -7,6 +7,7 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([baseUrlInterceptor, authInterceptor, loadingInterceptor, errorInterceptor]),
     ),
     provideClientHydration(),
+    // pop-up messages: close button + progress bar, gone after 3 s
+    provideToastr({ timeOut: 3000, closeButton: true, progressBar: true, positionClass: 'toast-top-right' }),
   ],
 };

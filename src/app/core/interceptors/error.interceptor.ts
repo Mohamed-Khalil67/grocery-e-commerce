@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { ToastService } from '../services/toast.service';
+import { ToastrService } from 'ngx-toastr';
 import { getApiErrorMessage } from '../utils/api-error';
 
 /**
@@ -14,7 +14,7 @@ import { getApiErrorMessage } from '../utils/api-error';
  * When you meet it, sign the user out here (auth.signOut()) when error.status === 401.
  */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-  const toast = inject(ToastService);
+  const toast = inject(ToastrService);
 
   return next(req).pipe(
     catchError((error: unknown) => {
