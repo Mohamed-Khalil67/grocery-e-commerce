@@ -1,5 +1,50 @@
-<section class="container mx-auto my-10 max-w-3xl rounded-2xl border border-dashed border-gray-300 p-8 text-center">
-  <p class="text-4xl">🚧</p>
-  <h1 class="mt-2 text-2xl font-bold text-gray-800">Product details</h1>
-  <p class="mt-2 text-gray-500">Not built yet — see <code>TODO(product-details)</code> in <code>product-details.component.ts</code></p>
-</section>
+@if (product.error()) {
+  <section class="container mx-auto px-4 py-16 text-center">
+    <p class="text-5xl">😕</p>
+    <h1 class="mt-4 text-2xl font-bold text-gray-800">We couldn't find this product</h1>
+    <p class="mt-2 text-gray-500">The link may be wrong, or the product was removed.</p>
+  </section>
+} @else if (product.value(); as res) {
+  @let p = res.data;
+
+  <app-page-header
+    [title]="p.title"
+    icon="box"
+    [crumbs]="[{ label: p.category.name, link: '/categories/' + p.category._id }, { label: p.title }]"
+  />
+
+  <section class="container mx-auto grid gap-10 px-4 py-10 md:grid-cols-2">
+    <app-product-gallery [images]="p.images" />
+
+    <div>
+      <div class="mb-3 flex flex-wrap gap-2 text-xs">
+        <span class="rounded-full bg-green-50 px-3 py-1 text-green-700">{{ p.category.name }}</span>
+        <span class="rounded-full bg-violet-50 px-3 py-1 text-violet-700">{{ p.brand.name }}</span>
+      </div>
+
+      <h1 class="text-2xl font-bold text-gray-800">{{ p.title }}</h1>
+
+      <div class="mt-3 flex items-center">
+        <app-star-rating [rating]="p.ratingsAverage" class="mr-2" />
+        <span class="text-sm text-gray-500">{{ p.ratingsAverage }} ({{ p.ratingsQuantity }} reviews)</span>
+      </div>
+
+      <div class="mt-4">
+        @if (p.priceAfterDiscount; as sale) {
+          <span class="text-3xl font-bold text-primary-600">{{ sale | number: '1.0-0' }} EGP</span>
+          <span class="ml-3 text-lg text-gray-500 line-through">{{ p.price | number: '1.0-0' }} EGP</span>
+        } @else {
+          <span class="text-3xl font-bold text-gray-800">{{ p.price | number: '1.0-0' }} EGP</span>
+        }
+      </div>
+
+      <p class="mt-2 text-sm" [class]="p.quantity > 0 ? 'text-green-600' : 'text-red-500'">
+        {{ p.quantity > 0 ? 'In Stock' : 'Out of Stock' }}
+      </p>
+
+      <p class="mt-6 leading-relaxed text-gray-600">{{ p.description }}</p>
+
+      <!-- Add to cart / wishlist buttons come with Quests 6 and 8 -->
+    </div>
+  </section>
+}

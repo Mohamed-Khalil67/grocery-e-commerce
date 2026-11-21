@@ -38,9 +38,10 @@ export class CategoryDetailsComponent {
 
   // The API can answer with subcategories of OTHER categories → keep only the ones whose parent is this category.
   // computed() = a value calculated from other signals; it recalculates by itself when they change.
-  protected readonly subcategories = computed(() =>
-    (this.subcategoriesRes.value()?.data ?? []).filter((sub) => sub.category === this.id()),
-  );
+  protected readonly subcategories = computed(() => {
+    const all = this.subcategoriesRes.value()?.data ?? [];
+    return all.filter((sub) => sub.category === this.id());
+  });
 
   // Which chip is selected. undefined = "All". The chips component emits a new value → we .set() it here.
   protected readonly selectedSub = signal<string | undefined>(undefined);
@@ -49,24 +50,13 @@ export class CategoryDetailsComponent {
   // It depends on `products` and `selectedSub`, so clicking a chip updates the grid with no extra code.
   protected readonly visibleProducts = computed(() => {
     const products = this.products.value()?.data ?? [];
-    const sub = this.selectedSub();
-    if (sub === undefined) {
-      return products;
-    }
-    return products.filter((product) => product.subcategory.some((s) => s._id === sub));
-  });
+    const selected = this.selectedSub();
 
-  constructor() {
-    // DEBUG logs (delete them when you understand the flow).
-    // effect() runs again every time a signal it reads changes. Open DevTools > Console to watch.
-    effect(() => console.log('1) id from the URL:', this.id()));
-    effect(() => console.log('2) category reply:', this.category.value()));
-    effect(() =>
-      console.log('3) RAW subcategories from the API (may be other categories too):', this.subcategoriesRes.value()?.data),
+    if (selected === undefined) {
+      return products;                                  // "All" chip: no filtering
+    }
+    return products.filter((product) =>
+      product.subcategory.some((sub) => sub._id === selected),
     );
-    effect(() => console.log('4) CLEANED subcategories (sub.category === id):', this.subcategories()));
-    effect(() => console.log('5) products of the category:', this.products.value()?.data));
-    effect(() => console.log('6) selectedSub (undefined = All):', this.selectedSub()));
-    effect(() => console.log('7) visibleProducts shown in the grid:', this.visibleProducts().length));
-  }
+  });
 }

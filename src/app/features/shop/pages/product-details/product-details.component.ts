@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
+import { StarRatingComponent } from '../../../../shared/ui/star-rating/star-rating.component';
+import { ProductGalleryComponent } from '../../components/product-gallery/product-gallery.component';
+import { ProductService } from '../../services/product.service';
 
 /**
  * 🎯 TODO(product-details) — Product details
@@ -35,9 +41,19 @@ import { Component } from '@angular/core';
  * Stuck? ask "hint for TODO(product-details)" · done? ask "review TODO(product-details)".
  */
 @Component({
-  imports: [],
+  imports: [DecimalPipe, PageHeaderComponent, StarRatingComponent, ProductGalleryComponent],
   selector: 'app-product-details',
   styleUrl: './product-details.component.css',
   templateUrl: './product-details.component.html',
 })
-export class ProductDetailsComponent {}
+export class ProductDetailsComponent {
+  private readonly productService = inject(ProductService);
+
+  // /products/:id → the router puts the id here
+  readonly id = input.required<string>();
+
+  protected readonly product = rxResource({
+    params: () => this.id(),
+    stream: ({ params }) => this.productService.getProduct(params),
+  });
+}
