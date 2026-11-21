@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, input, numberAttribute } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
+import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
+import { BrandCardComponent } from '../../components/brand-card/brand-card.component';
+import { BrandService } from '../../services/brand.service';
+import {RouterLink} from '@angular/router';
 
 /**
  * 🎯 TODO(brands) — Brands
@@ -26,9 +32,18 @@ import { Component } from '@angular/core';
  * Stuck? ask "hint for TODO(brands)" · done? ask "review TODO(brands)".
  */
 @Component({
-  imports: [],
+  imports: [PageHeaderComponent, PaginationComponent, BrandCardComponent, RouterLink],
   selector: 'app-brands',
   styleUrl: './brands.component.css',
   templateUrl: './brands.component.html',
 })
-export class BrandsComponent {}
+export class BrandsComponent {
+  private readonly brandService = inject(BrandService);
+
+  readonly page = input<string>();   // raw text from the URL, or undefined
+
+  protected readonly brands = rxResource({
+    params: () => Number(this.page() ?? 1),   // "2" → 2, undefined → 1
+    stream: ({ params }) => this.brandService.getBrands(params),
+  });
+}

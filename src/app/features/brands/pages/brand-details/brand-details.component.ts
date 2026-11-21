@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, inject, input} from '@angular/core';
+import {rxResource} from '@angular/core/rxjs-interop';
+import {BrandService} from '../../services/brand.service';
+import {ProductService} from '../../../shop/services/product.service';
+import {PageHeaderComponent} from '../../../../shared/ui/page-header/page-header.component';
+import {ProductCardComponent} from '../../../../shared/components/product-card/product-card.component';
 
 /**
  * 🎯 TODO(brand-details) — Brand details
@@ -25,9 +30,26 @@ import { Component } from '@angular/core';
  * Stuck? ask "hint for TODO(brand-details)" · done? ask "review TODO(brand-details)".
  */
 @Component({
-  imports: [],
+  imports: [PageHeaderComponent, ProductCardComponent],
   selector: 'app-brand-details',
   styleUrl: './brand-details.component.css',
   templateUrl: './brand-details.component.html',
 })
-export class BrandDetailsComponent {}
+export class BrandDetailsComponent {
+  private readonly brandService = inject(BrandService);
+  private readonly productService = inject(ProductService);
+
+  // /brands/:id → the router puts the id here
+  readonly id = input.required<string>();
+
+  // Two requests from the same id: both reload by themselves when it changes.
+  protected readonly brand = rxResource({
+    params: () => this.id(),
+    stream: ({params}) => this.brandService.getBrand(params),
+  });
+
+  protected readonly products = rxResource({
+    params: () => this.id(),
+    stream: ({params}) => this.productService.getProducts(1, {brand: params}),
+  });
+}

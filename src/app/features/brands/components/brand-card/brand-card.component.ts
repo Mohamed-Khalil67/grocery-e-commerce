@@ -1,17 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Brand } from '../../../../core/models/brand.interface';
 
-/**
- * 🎯 TODO(brand-card) — BrandCard
- *
- * White card with the brand logo on a light-gray square + name, links to /brands/:id.
- *
- * Where: brands/components/brand-card
- * Stuck? ask "hint for TODO(brand-card)" · done? ask "review TODO(brand-card)".
- */
+/** One brand on the brands page: logo on a light-gray square + name. Clicking it opens /brands/:id. */
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-brand-card',
   styleUrl: './brand-card.component.css',
   templateUrl: './brand-card.component.html',
 })
-export class BrandCardComponent {}
+export class BrandCardComponent {
+  readonly brand = input.required<Brand>();
+}
