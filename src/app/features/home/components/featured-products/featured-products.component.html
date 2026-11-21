@@ -1,3 +1,21 @@
-<div class="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">
-  🚧 app-featured-products — see <code>TODO(home-featured)</code>
-</div>
+<section class="py-10">
+  <div class="container mx-auto px-4">
+    <app-section-title plain="Featured" accent="Products" link="/products" linkLabel="View All Products" />
+
+    @if (products.isLoading()) {
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+        @for (placeholder of placeholders; track placeholder) {
+          <div class="skeleton h-96 rounded-lg"></div>
+        }
+      </div>
+    } @else if (products.error()) {
+      <p class="rounded-lg bg-red-50 p-4 text-center text-red-600">Couldn't load the products. Please try again.</p>
+    } @else if (products.value(); as res) {
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+        @for (product of res.data; track product._id) {
+          <app-product-card [product]="product" />
+        }
+      </div>
+    }
+  </div>
+</section>

@@ -1,17 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { email, form, FormField, required, submit } from '@angular/forms/signals';
+import { ToastrService } from 'ngx-toastr';
 
-/**
- * 🎯 TODO(home-newsletter) — NewsletterSection
- *
- * Light-green card: "Get the Freshest Updates Delivered Free" + email field + Subscribe; next to it a dark "Shop Faster on Our App" card. Static (no API).
- *
- * Where: home/components/newsletter-section
- * Stuck? ask "hint for TODO(home-newsletter)" · done? ask "review TODO(home-newsletter)".
- */
+/** Newsletter card + app card. There is no API for it: "Subscribe" only shows a thank-you message. */
 @Component({
-  imports: [],
+  imports: [FormField],
   selector: 'app-newsletter-section',
   styleUrl: './newsletter-section.component.css',
   templateUrl: './newsletter-section.component.html',
 })
-export class NewsletterSectionComponent {}
+export class NewsletterSectionComponent {
+  private readonly toast = inject(ToastrService);
+
+  protected readonly model = signal({ email: '' });
+
+  protected readonly newsletterForm = form(this.model, (path) => {
+    required(path.email, { message: 'Email is required' });
+    email(path.email, { message: 'Enter a valid email' });
+  });
+
+  protected async onSubmit(event: Event): Promise<void> {
+    event.preventDefault();
+
+    await submit(this.newsletterForm, async () => {
+      this.toast.success('Thanks for subscribing!');
+      this.model.set({ email: '' });
+      this.newsletterForm().reset();
+    });
+  }
+}

@@ -1,9 +1,8 @@
-import { Component, effect } from '@angular/core';
-import { httpResource } from '@angular/common/http';
-import { ApiListResponse } from '../../../../core/models/api-response.interface';
-import { Product } from '../../../../core/models/product.interface';
+import { Component } from '@angular/core';
 import { CategorySliderComponent } from '../../components/category-slider/category-slider.component';
+import { FeaturedProductsComponent } from '../../components/featured-products/featured-products.component';
 import { HeroSliderComponent } from '../../components/hero-slider/hero-slider.component';
+import { NewsletterSectionComponent } from '../../components/newsletter-section/newsletter-section.component';
 import { PromoBannersComponent } from '../../components/promo-banners/promo-banners.component';
 
 /**
@@ -39,15 +38,15 @@ import { PromoBannersComponent } from '../../components/promo-banners/promo-bann
  * Stuck? ask "hint for TODO(home)" · done? ask "review TODO(home)".
  */
 @Component({
-  imports: [HeroSliderComponent, CategorySliderComponent, PromoBannersComponent],
+  imports: [
+    HeroSliderComponent,
+    CategorySliderComponent,
+    PromoBannersComponent,
+    FeaturedProductsComponent,
+    NewsletterSectionComponent,
+  ],
   selector: 'app-home',
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
-export class HomeComponent {
-  // ROUND 1 — data. httpResource sends the request as soon as the component is created.
-  // (the categories request moved into the category-slider component in round 3)
-  // Same idea with query params → GET /products?limit=10  (10 = two rows of 5 in the demo's grid)
-
-
-}
+export class HomeComponent {}

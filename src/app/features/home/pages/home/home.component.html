@@ -2,8 +2,11 @@
 <app-category-slider />
 <app-promo-banners />
 
-<section class="container mx-auto my-10 max-w-3xl rounded-2xl border border-dashed border-gray-300 p-8 text-center">
-  <p class="text-4xl">🚧</p>
-  <h1 class="mt-2 text-2xl font-bold text-gray-800">Homepage</h1>
-  <p class="mt-2 text-gray-500">More sections coming (round 5: featured products) — see <code>TODO(home)</code> in <code>home.component.ts</code></p>
-</section>
+<!-- @defer: the products are only requested when this block scrolls into view -->
+@defer (on viewport) {
+  <app-featured-products />
+} @placeholder {
+  <div class="container mx-auto h-96 px-4"></div>
+}
+
+<app-newsletter-section />
