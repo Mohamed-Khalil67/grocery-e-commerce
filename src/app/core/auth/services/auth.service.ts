@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { CartService } from '../../../features/cart/services/cart.service';
 import { AuthResponse, SignInPayload, SignUpPayload } from '../../../features/auth/models/auth.interface';
 
 const TOKEN_KEY = 'userToken';
@@ -23,6 +24,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly spinner = inject(NgxSpinnerService);
+  private readonly cart = inject(CartService);
   // The server has no localStorage, so only read it in the browser.
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
@@ -64,8 +66,8 @@ export class AuthService {
       sessionStorage.removeItem(NAME_KEY);
       this.token.set(undefined);
       this.userName.set(undefined);
-      // TODO(cart-4 / wishlist-3): once those services hold state, reset it here too
-      // so the next user doesn't see the previous user's cart badge.
+      this.cart.reset(); // so the next user doesn't see the previous user's cart badge
+      // TODO(wishlist-3): reset the wishlist here too once it holds state.
       this.router.navigate(['/login']);
       this.spinner.hide();
     }, 800);
