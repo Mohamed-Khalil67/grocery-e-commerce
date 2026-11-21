@@ -6,6 +6,7 @@ import { baseUrlInterceptor } from './core/interceptors/base-url.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { debugLogInterceptor } from './core/interceptors/debug-log.interceptor';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideToastr } from 'ngx-toastr';
 
@@ -20,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       // ORDER MATTERS: base-url first (so the others see the full URL), error last (closest to the response)
-      withInterceptors([baseUrlInterceptor, authInterceptor, loadingInterceptor, errorInterceptor]),
+      withInterceptors([baseUrlInterceptor, authInterceptor, loadingInterceptor, debugLogInterceptor, errorInterceptor]),
     ),
     provideClientHydration(),
     // pop-up messages: close button + progress bar, gone after 3 s

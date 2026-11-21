@@ -8,7 +8,7 @@ import { Order } from '../models/order.interface';
  *
  *   GET /orders/user/:userId → that user's orders (an array, not wrapped in { data })
  *
- * The user id comes from the login token (see decodeToken in core/utils/token.ts: payload.id).
+ * The user id comes from GET /auth/verifyToken (TODO(auth-verify)).
  * Reply shape is from the docs, not verified with a login yet.
  */
 @Service()

@@ -4,7 +4,6 @@ import { email, form, FormField, pattern, required, submit, validate } from '@an
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { decodeToken } from '../../../../core/utils/token';
 import { PasswordResetService } from '../../services/password-reset.service';
 
 interface StepItem {
@@ -105,12 +104,11 @@ export class ForgotPasswordComponent {
     await submit(this.passwordForm, async () => {
       try {
         const res = await firstValueFrom(this.reset.resetPassword(this.emailModel().email, this.passwordModel().newPassword));
-        const payload = decodeToken(res.token);
-        console.log('[forgot] step 3 OK → new token received. what is inside it:', payload);
-        // the API logs the user in: the response is a new token
-        this.auth.saveSession(res.token, payload.name, true);
-        this.toast.success('Password changed. Welcome back!');
-        await this.router.navigate(['/']);
+        console.log('[forgot] step 3 OK → response (a new token):', res);
+        // TODO(forgot-login): the API returns a new token. Later: read the user's name from it
+        // (GET /auth/verifyToken) and call this.auth.saveSession(...) to log the user in right away.
+        this.toast.success('Password changed. Please log in.');
+        await this.router.navigate(['/login']);
       } catch {
         // nothing to do: the error interceptor already showed the error as a toast
       }
