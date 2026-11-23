@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /**
- * 🎯 TODO(empty-state) — EmptyState
+ * Gray icon box + title + text. The buttons are passed in by the page (content projection):
  *
- * Gray icon box + title + text + action button(s) ("Your cart is empty", "Your wishlist is empty"). Content projection for the buttons.
- *
- * Where: shared/ui/empty-state
- * Stuck? ask "hint for TODO(empty-state)" · done? ask "review TODO(empty-state)".
+ *   <app-empty-state icon="cart-shopping" title="Your cart is empty" message="Start exploring!">
+ *     <a routerLink="/products" class="...">Start Shopping</a>
+ *   </app-empty-state>
  */
 @Component({
   imports: [],
@@ -14,4 +13,9 @@ import { Component } from '@angular/core';
   styleUrl: './empty-state.component.css',
   templateUrl: './empty-state.component.html',
 })
-export class EmptyStateComponent {}
+export class EmptyStateComponent {
+  readonly title = input.required<string>();
+  readonly message = input<string>('');
+  /** Font Awesome icon name without the "fa-" prefix, e.g. "heart". */
+  readonly icon = input<string>('box-open');
+}

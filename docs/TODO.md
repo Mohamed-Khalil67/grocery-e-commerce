@@ -63,7 +63,7 @@ Tick each when it works in the browser AND `ng build` passes. _Status updated 20
 - [x] Support "24/7 Help" link: was `/contact` (no such route → 404), now calls the phone number
 - [x] "My Orders" link for signed-in users (top bar + mobile drawer)
 - [x] Mobile drawer links highlight the active page
-- [ ] `TODO(navbar-1)`: load the Categories dropdown from `CategoryService` instead of the 4 hard-coded ids
+- [x] `TODO(navbar-1)`: load the Categories dropdown from `CategoryService` instead of the 4 hard-coded ids
 
 ### Phase 1 — Read data (GET, httpResource, route params) ✅
 1. [x] Products page with pagination + search
@@ -74,7 +74,7 @@ Tick each when it works in the browser AND `ng build` passes. _Status updated 20
 
 ### Phase 2 — Shared state (signals in services, tap, navbar badges)
 6. [x] CartService (count signal + `tap`), cart loaded on login, reset on logout
-7. [ ] Shared UI: `TODO(quantity-stepper)`, `TODO(empty-state)`
+7. [ ] Shared UI: `TODO(quantity-stepper)` ⬜ · `TODO(empty-state)` ✅
 8. [ ] `TODO(cart-item)` + `TODO(cart-summary)` → `TODO(cart)` page
 9. [ ] `TODO(wishlist-models)` → `TODO(wishlist-1)` (+ load it in `main-layout`) → `TODO(wishlist-item)` → `TODO(wishlist)` page
 10. [ ] Wire "Add to cart" / heart buttons on every page that uses `<app-product-card>`

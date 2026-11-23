@@ -3,15 +3,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { CartService } from '../../../features/cart/services/cart.service';
 import { WishlistService } from '../../../features/wishlist/services/wishlist.service';
+import { CategoryService } from '../../../features/categories/services/category.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 interface NavLink {
   readonly label: string;
   readonly path: string;
-}
-
-interface CategoryLink {
-  readonly id: string;
-  readonly name: string;
 }
 
 @Component({
@@ -24,6 +21,7 @@ export class NavbarComponent {
   protected readonly auth = inject(AuthService);
   protected readonly cart = inject(CartService);
   protected readonly wishlist = inject(WishlistService);
+  private readonly categoryService = inject(CategoryService);
   private readonly router = inject(Router);
 
   /** Mobile drawer open/closed. */
@@ -33,16 +31,11 @@ export class NavbarComponent {
     { label: 'Home', path: '/' },
     { label: 'Shop', path: '/products' },
   ];
-  /**
-   * Same four categories as the demo's dropdown, with the REAL ids from GET /categories
-   * (the demo links them wrongly). TODO(navbar-1): load these from CategoryService instead.
-   */
-  protected readonly categories: readonly CategoryLink[] = [
-    { id: '6439d2d167d9aa4ca970649f', name: 'Electronics' },
-    { id: '6439d58a0049ad0b52b9003f', name: "Women's Fashion" },
-    { id: '6439d5b90049ad0b52b90048', name: "Men's Fashion" },
-    { id: '6439d30b67d9aa4ca97064b1', name: 'Beauty & Health' },
-  ];
+
+  /** Categories dropdown: GET /categories, loaded once. */
+  protected readonly categories = rxResource({
+    stream: () => this.categoryService.getCategories(),
+  });
 
   protected toggleMenu(): void {
     this.menuOpen.update((open) => !open);

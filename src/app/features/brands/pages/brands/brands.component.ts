@@ -1,4 +1,4 @@
-import { Component, inject, input, numberAttribute } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
 import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
@@ -32,7 +32,7 @@ import {RouterLink} from '@angular/router';
  * Stuck? ask "hint for TODO(brands)" · done? ask "review TODO(brands)".
  */
 @Component({
-  imports: [PageHeaderComponent, PaginationComponent, BrandCardComponent, RouterLink],
+  imports: [PageHeaderComponent, PaginationComponent, BrandCardComponent],
   selector: 'app-brands',
   styleUrl: './brands.component.css',
   templateUrl: './brands.component.html',
