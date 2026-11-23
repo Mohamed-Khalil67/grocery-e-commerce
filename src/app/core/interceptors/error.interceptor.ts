@@ -1,7 +1,8 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../auth/services/auth.service';
 import { getApiErrorMessage } from '../utils/api-error';
 
 /**
@@ -15,9 +16,13 @@ import { getApiErrorMessage } from '../utils/api-error';
  */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toast = inject(ToastrService);
+  const auth = inject(AuthService);
 
   return next(req).pipe(
     catchError((error: unknown) => {
+      if (error instanceof HttpErrorResponse && error.status === 401 && auth.isLoggedIn()) {
+        auth.signOut();
+      }
       toast.error(getApiErrorMessage(error));
       return throwError(() => error);
     }),
