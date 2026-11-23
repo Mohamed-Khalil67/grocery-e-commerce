@@ -33,7 +33,6 @@ export class NavbarComponent {
     { label: 'Home', path: '/' },
     { label: 'Shop', path: '/products' },
   ];
-
   /**
    * Same four categories as the demo's dropdown, with the REAL ids from GET /categories
    * (the demo links them wrongly). TODO(navbar-1): load these from CategoryService instead.

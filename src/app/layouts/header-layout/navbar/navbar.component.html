@@ -31,6 +31,10 @@
               <i class="fa-regular fa-user text-xs"></i>
               Hi, {{ auth.userName() }}
             </span>
+            <a routerLink="/profile/orders" class="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-primary-600">
+              <i class="fa-solid fa-box text-xs"></i>
+              My Orders
+            </a>
             <button type="button" class="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-primary-600" (click)="signOut()">
               <i class="fa-solid fa-right-from-bracket text-xs"></i>
               Sign Out
@@ -115,7 +119,7 @@
 
       <!-- Right side -->
       <div class="flex items-center gap-1 lg:gap-2">
-        <a routerLink="/contact" class="mr-2 hidden items-center gap-2 border-r border-gray-200 pr-3 transition-opacity hover:opacity-80 lg:flex">
+        <a href="tel:+18001234567" class="mr-2 hidden items-center gap-2 border-r border-gray-200 pr-3 transition-opacity hover:opacity-80 lg:flex">
           <div class="flex size-10 items-center justify-center rounded-full bg-primary-50">
             <i class="fa-solid fa-headset text-primary-600"></i>
           </div>
@@ -199,10 +203,10 @@
   </form>
 
   <nav class="space-y-1 p-4">
-    <a routerLink="/" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Home</a>
-    <a routerLink="/products" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Shop</a>
-    <a routerLink="/categories" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Categories</a>
-    <a routerLink="/brands" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Brands</a>
+    <a routerLink="/" routerLinkActive="!text-primary-600" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Home</a>
+    <a routerLink="/products" routerLinkActive="!text-primary-600" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Shop</a>
+    <a routerLink="/categories" routerLinkActive="!text-primary-600" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Categories</a>
+    <a routerLink="/brands" routerLinkActive="!text-primary-600" (click)="closeMenu()" class="flex items-center gap-3 rounded-xl px-4 py-3 font-medium text-gray-700 transition-colors hover:bg-primary-50 hover:text-primary-600">Brands</a>
   </nav>
 
   <div class="mx-4 border-t border-gray-100"></div>
@@ -224,6 +228,9 @@
     @if (auth.isLoggedIn()) {
       <a routerLink="/profile" (click)="closeMenu()" class="mb-3 flex items-center justify-center gap-2 rounded-xl bg-primary-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-primary-700">
         <i class="fa-regular fa-user"></i> {{ auth.userName() }}
+      </a>
+      <a routerLink="/profile/orders" (click)="closeMenu()" class="mb-3 flex items-center justify-center gap-2 rounded-xl bg-gray-100 px-4 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-200">
+        <i class="fa-solid fa-box"></i> My Orders
       </a>
       <button type="button" (click)="signOut()" class="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-primary-600 px-4 py-3 font-semibold text-primary-600 transition-colors hover:bg-primary-50">
         Sign Out
