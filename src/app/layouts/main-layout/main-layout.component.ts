@@ -1,13 +1,14 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderLayoutComponent } from '../header-layout/header-layout.component';
 import { FooterLayoutComponent } from '../footer-layout/footer-layout.component';
-import { AuthService } from '../../core/auth/services/auth.service';
-import { CartService } from '../../features/cart/services/cart.service';
 
 /**
  * The ONE layout of the app (like the demo): login, sign-up and 404 live inside it too.
  * header-layout → page → footer-layout.
+ *
+ * It does not load the cart or the wishlist: CartService and WishlistService do that themselves
+ * (their resources follow the login token).
  */
 @Component({
   imports: [RouterOutlet, HeaderLayoutComponent, FooterLayoutComponent],
@@ -15,22 +16,4 @@ import { CartService } from '../../features/cart/services/cart.service';
   styleUrl: './main-layout.component.css',
   templateUrl: './main-layout.component.html',
 })
-export class MainLayoutComponent {
-  private readonly auth = inject(AuthService);
-  private readonly cart = inject(CartService);
-
-  constructor() {
-    // Runs on app start and again whenever the user logs in or out (isLoggedIn is a signal).
-    // Logged in → load the cart so the navbar badge is right. (On the server nobody is logged in: nothing runs.)
-    effect(() => {
-      if (this.auth.isLoggedIn()) {
-        this.cart.getCart().subscribe({
-          next: () => {}, // nothing to do: CartService saves the rows, so the navbar badge updates by itself
-          error: () => {}, // the error interceptor already showed the toast
-          complete: () => {},
-        });
-      }
-    });
-    // TODO(wishlist-1): load the wishlist here the same way.
-  }
-}
+export class MainLayoutComponent {}

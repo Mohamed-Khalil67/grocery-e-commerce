@@ -1,17 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { Product } from '../../../../core/models/product.interface';
 
 /**
- * 🎯 TODO(wishlist-item) — WishlistItem
+ * One wishlist row. Display only: it never calls the API, the wishlist page does.
  *
- * One wishlist row/card: image, title, price, "Add to cart" and remove.
- *
- * Where: wishlist/components/wishlist-item
- * Stuck? ask "hint for TODO(wishlist-item)" · done? ask "review TODO(wishlist-item)".
+ *   <app-wishlist-item [product]="product" (remove)="…" (addToCart)="…" />
  */
 @Component({
-  imports: [],
+  imports: [DecimalPipe, RouterLink],
   selector: 'app-wishlist-item',
   styleUrl: './wishlist-item.component.css',
   templateUrl: './wishlist-item.component.html',
 })
-export class WishlistItemComponent {}
+export class WishlistItemComponent {
+  readonly product = input.required<Product>();
+
+  readonly remove = output<void>();
+  readonly addToCart = output<void>();
+}

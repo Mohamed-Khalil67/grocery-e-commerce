@@ -1,5 +1,29 @@
-<section class="container mx-auto my-10 max-w-3xl rounded-2xl border border-dashed border-gray-300 p-8 text-center">
-  <p class="text-4xl">🚧</p>
-  <h1 class="mt-2 text-2xl font-bold text-gray-800">Wishlist</h1>
-  <p class="mt-2 text-gray-500">Not built yet — see <code>TODO(wishlist)</code> in <code>wishlist.component.ts</code></p>
-</section>
+@if (!auth.isLoggedIn()) {
+  <app-empty-state icon="heart" title="Your wishlist is empty" message="Sign in to see your saved products.">
+    <a routerLink="/login" class="rounded-full bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700">Sign In</a>
+  </app-empty-state>
+} @else if (products.error()) {
+  <section class="container mx-auto px-4 py-16 text-center">
+    <p class="text-gray-500">We couldn't load your wishlist.</p>
+    <button type="button" class="mt-4 rounded-full bg-primary-600 px-6 py-3 font-semibold text-white hover:bg-primary-700" (click)="products.reload()">Try again</button>
+  </section>
+} @else if (items().length > 0) {
+  <section class="container mx-auto max-w-4xl px-4 py-10">
+    <h1 class="text-3xl font-bold text-gray-900">My Wishlist</h1>
+    <p class="mt-1 text-gray-500">{{ items().length }} saved</p>
+
+    <div class="mt-6 space-y-4">
+      @for (product of items(); track product._id) {
+        <app-wishlist-item
+          [product]="product"
+          (remove)="onRemove(product._id)"
+          (addToCart)="onAddToCart(product._id)"
+        />
+      }
+    </div>
+  </section>
+} @else if (!products.isLoading()) {
+  <app-empty-state icon="heart" title="Your wishlist is empty" message="Browse products and save your favorites here.">
+    <a routerLink="/products" class="rounded-full bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700">Browse Products →</a>
+  </app-empty-state>
+}

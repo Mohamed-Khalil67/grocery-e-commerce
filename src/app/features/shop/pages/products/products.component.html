@@ -22,7 +22,12 @@
     @if (filteredProducts().length > 0) {
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
         @for (product of filteredProducts(); track product._id) {
-          <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+          <app-product-card
+            [product]="product"
+            [inWishlist]="wishlist.ids().includes(product._id)"
+            (addToCart)="onAddToCart($event)"
+            (toggleWishlist)="onToggleWishlist($event)"
+          />
         }
       </div>
     } @else {

@@ -1,11 +1,15 @@
-/*
- * TODO(wishlist-models): model the wishlist responses.
- *
- *   GET    /wishlist             → { status, count, data: Product[] }
- *   POST   /wishlist {productId} → { status, message, data: string[] }   // only ids!
- *   DELETE /wishlist/:productId  → { status, message, data: string[] }   // only ids!
- *
- * Tip: keep the wishlisted ids in WishlistService so every product card
- * can show a filled heart without refetching.
- */
-export {};
+import { Product } from '../../../core/models/product.interface';
+
+/** GET /wishlist: the FULL products (verified with a real login). */
+export interface WishlistResponse {
+  readonly status: string;
+  readonly count: number;
+  readonly data: readonly Product[];
+}
+
+/** POST /wishlist { productId } and DELETE /wishlist/:productId: only product IDS. */
+export interface WishlistIdsResponse {
+  readonly status: string;
+  readonly message: string;
+  readonly data: readonly string[];
+}

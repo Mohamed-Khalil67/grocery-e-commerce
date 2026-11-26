@@ -51,7 +51,7 @@ Tick each when it works in the browser AND `ng build` passes. _Status updated 20
 | **Brands** + Brand details | ✅ done | delete the old `🎯 TODO` headers in both files |
 | **Categories** + Category details | ✅ done (+ subcategory chips) | delete the old `🎯 TODO` header in `categories.component.ts` |
 | **Cart:** display, add, remove, update quantity | 🟡 CartService done, badge works | `TODO(quantity-stepper)`, `TODO(empty-state)` → `TODO(cart-item)`, `TODO(cart-summary)` → `TODO(cart)`; then `TODO(cart-clear)`, `TODO(cart-id)` |
-| **Wishlist:** display, add, remove | ⬜ | `TODO(wishlist-models)` → `TODO(wishlist-1)` → `TODO(wishlist-item)` → `TODO(wishlist)`; `TODO(wishlist-3)` reset on sign-out; hearts on product cards |
+| **Wishlist:** display, add, remove | 🟡 written, needs a test with a real login | models, `WishlistService`, row, page and hearts on the 4 product pages are done. Both `CartService` and `WishlistService` now own an `rxResource` that follows the login token (no effect in `main-layout`, no `reset()`), with `count` / `ids` as `computed`; every change reloads the resource. Still to test with a real login |
 | **Profile:** update name / email / phone | 🟡 ProfileService done | `TODO(update-profile-form)` → `TODO(profile)` |
 | **Payment:** cash + online (Stripe) | ⬜ | `TODO(order-models)` → `TODO(shipping-form)`, `TODO(payment-method-picker)`, `TODO(order-summary)` → `TODO(payment)` checkout page |
 | **Orders** page | ⬜ | `TODO(auth-verify)` (gives the user id) → `TODO(order-item-row)`, `TODO(order-card)` → `TODO(orders)` |
