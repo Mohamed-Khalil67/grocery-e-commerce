@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 
 /**
- * 🎯 TODO(quantity-stepper) — QuantityStepper
+ * "− 2 +" control. It does NOT own the number: the parent passes `value` and decides what to do
+ * with `changed` (cart-item calls PUT /cart/:id, then the new number comes back down as `value`).
  *
- * − [n] + control. model<number>() or input + output. Used by product-info and cart-item.
- *
- * Where: shared/ui/quantity-stepper
- * Stuck? ask "hint for TODO(quantity-stepper)" · done? ask "review TODO(quantity-stepper)".
+ *   <app-quantity-stepper [value]="line.count" [max]="line.product.quantity" [disabled]="busy" (changed)="update($event)" />
  */
 @Component({
   imports: [],
@@ -14,4 +12,32 @@ import { Component } from '@angular/core';
   styleUrl: './quantity-stepper.component.css',
   templateUrl: './quantity-stepper.component.html',
 })
-export class QuantityStepperComponent {}
+export class QuantityStepperComponent {
+  readonly value = input.required<number>();
+  /** Lowest allowed number: 1 in the cart (the trash button removes), 0 on a product card. */
+  readonly min = input<number>(0);
+  /** Stock limit (for the cart: product.quantity). */
+  readonly max = input<number>(99);
+  /** True while the parent is waiting for the API. */
+  readonly disabled = input<boolean>(false);
+
+  /** Emits the NEW number the user asked for. */
+  readonly changed = output<number>();
+
+  protected readonly canDecrease = computed(() => !this.disabled() && this.value() > this.min());
+  protected readonly canIncrease = computed(() => !this.disabled() && this.value() < this.max());
+
+  protected decrease(): void {
+    if (this.canDecrease()) {
+      console.log('[stepper] −', this.value(), '→', this.value() - 1);
+      this.changed.emit(this.value() - 1);
+    }
+  }
+
+  protected increase(): void {
+    if (this.canIncrease()) {
+      console.log('[stepper] +', this.value(), '→', this.value() + 1, '| max:', this.max());
+      this.changed.emit(this.value() + 1);
+    }
+  }
+}

@@ -1,3 +1,27 @@
-<div class="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">
-  🚧 app-cart-summary — see <code>TODO(cart-summary)</code>
+<div class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+  <div class="bg-gray-900 px-5 py-4 text-lg font-semibold text-white">Order Summary</div>
+
+  <div class="space-y-3 p-5">
+    <div class="flex justify-between text-gray-600">
+      <span>Subtotal ({{ itemCount() }} {{ itemCount() === 1 ? 'item' : 'items' }})</span>
+      <span class="font-medium text-gray-800">{{ total() | number: '1.0-0' }} EGP</span>
+    </div>
+
+    <div class="flex justify-between text-gray-600">
+      <span>Shipping</span>
+      <span class="font-medium text-primary-600">Calculated at checkout</span>
+    </div>
+
+    <div class="flex justify-between border-t border-gray-100 pt-3 text-lg font-bold text-gray-900">
+      <span>Estimated Total</span>
+      <span class="text-primary-600">{{ total() | number: '1.0-0' }} EGP</span>
+    </div>
+
+    <a
+      [routerLink]="['/checkout', cartId()]"
+      class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-primary-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-primary-700"
+    >
+      <i class="fa-solid fa-lock text-sm"></i> Proceed to Checkout
+    </a>
+  </div>
 </div>

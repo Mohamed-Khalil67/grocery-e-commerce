@@ -1,17 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 /**
- * 🎯 TODO(cart-summary) — CartSummary
+ * "Order Summary" box: subtotal, shipping note, total and the Checkout link. Display only.
  *
- * Total price, item count, "Checkout" button → /checkout/:cartId, "Clear cart".
- *
- * Where: cart/components/cart-summary
- * Stuck? ask "hint for TODO(cart-summary)" · done? ask "review TODO(cart-summary)".
+ *   <app-cart-summary [itemCount]="count" [total]="data.totalCartPrice" [cartId]="data._id" />
  */
 @Component({
-  imports: [],
+  imports: [DecimalPipe, RouterLink],
   selector: 'app-cart-summary',
   styleUrl: './cart-summary.component.css',
   templateUrl: './cart-summary.component.html',
 })
-export class CartSummaryComponent {}
+export class CartSummaryComponent {
+  /** Total quantity (the same number as the navbar badge). */
+  readonly itemCount = input.required<number>();
+  readonly total = input.required<number>();
+  /** Checkout goes to /checkout/:cartId. */
+  readonly cartId = input.required<string>();
+}

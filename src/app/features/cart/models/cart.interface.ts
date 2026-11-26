@@ -3,24 +3,32 @@
  * The API sends more fields than these; extra fields are simply ignored.
  */
 
-/** The product inside a cart line (GET /cart sends the full object). */
+/**
+ * The product inside a cart line. Only GET /cart sends all of this: the PUT / DELETE replies
+ * have the same product WITHOUT `quantity`, and POST sends just the product id.
+ */
 export interface CartProduct {
   readonly _id: string;
   readonly title: string;
   readonly imageCover: string;
+  readonly category: { readonly name: string };
   /** Stock available (the max for the quantity stepper). */
   readonly quantity: number;
 }
 
-/** One row of the cart. */
-export interface CartLine {
+/** The part of a cart row that EVERY reply has (POST sends `product` as an id only, GET sends the full product). */
+export interface CartLineCount {
   readonly count: number;
+}
+
+/** One row of the cart. */
+export interface CartLine extends CartLineCount {
   /** Price of ONE unit. */
   readonly price: number;
   readonly product: CartProduct;
 }
 
-/** What GET /cart, PUT /cart/:id and DELETE /cart/:id answer. */
+/** What GET /cart answers (PUT / DELETE answer almost the same, but without `quantity`: we only read their rows' `count`). */
 export interface CartResponse {
   readonly numOfCartItems: number;
   readonly data: {
@@ -30,7 +38,15 @@ export interface CartResponse {
   };
 }
 
-/** What POST /cart answers: we only read the count (its `product` is just an id, so it is not typed here). */
+/** What DELETE /cart answers (not verified: we ignore it, success is all we need). */
+export interface ClearCartResponse {
+  readonly message: string;
+}
+
+/** What POST /cart answers. We only read each row's `count`, so only that is typed. */
 export interface AddToCartResponse {
   readonly numOfCartItems: number;
+  readonly data: {
+    readonly products: readonly CartLineCount[];
+  };
 }

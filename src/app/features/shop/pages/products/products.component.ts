@@ -1,5 +1,8 @@
 import { Component, computed, effect, inject, input, numberAttribute } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/auth/services/auth.service';
+import { CartService } from '../../../cart/services/cart.service';
 import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
 import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
 import { ProductService } from '../../services/product.service';
@@ -40,6 +43,9 @@ import {PaginationComponent} from '../../../../shared/ui/pagination/pagination.c
 })
 export class ProductsComponent {
   private readonly productService = inject(ProductService);
+  private readonly cart = inject(CartService);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   // The URL is  /products?page=2&keyword=shawl  (withComponentInputBinding puts those values in these inputs).
   // When the URL does not have them, the router sets the inputs to `undefined`, so each input has a `transform`
@@ -61,4 +67,21 @@ export class ProductsComponent {
     const word = this.keyword().toLowerCase();
     return products.filter((product) => product.title.toLowerCase().includes(word));
   });
+
+  /** The card emits the product id. Guests go to /login; the badge updates by itself (CartService `tap`). */
+  protected onAddToCart(productId: string): void {
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    console.log('[cart] add →', productId, '| count before:', this.cart.count());
+    this.cart.addToCart(productId).subscribe({
+      next: (reply) => {
+        console.log('[cart] reply →', reply, '| count after:', this.cart.count());
+      },
+      error: () => {}, // the error interceptor already showed the toast
+      complete: () => {},
+    });
+  }
 }

@@ -24,7 +24,11 @@ export class MainLayoutComponent {
     // Logged in → load the cart so the navbar badge is right. (On the server nobody is logged in: nothing runs.)
     effect(() => {
       if (this.auth.isLoggedIn()) {
-        this.cart.getCart().subscribe(); // errors: the error interceptor already shows a toast
+        this.cart.getCart().subscribe({
+          next: () => {}, // nothing to do: CartService saves the rows, so the navbar badge updates by itself
+          error: () => {}, // the error interceptor already showed the toast
+          complete: () => {},
+        });
       }
     });
     // TODO(wishlist-1): load the wishlist here the same way.

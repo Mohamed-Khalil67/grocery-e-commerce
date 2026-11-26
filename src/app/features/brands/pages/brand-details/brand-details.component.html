@@ -30,7 +30,7 @@
       @if (list.data.length > 0) {
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           @for (product of list.data; track product._id) {
-            <app-product-card [product]="product" />
+            <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
           }
         </div>
       } @else {

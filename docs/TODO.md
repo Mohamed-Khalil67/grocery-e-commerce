@@ -74,8 +74,8 @@ Tick each when it works in the browser AND `ng build` passes. _Status updated 20
 
 ### Phase 2 — Shared state (signals in services, tap, navbar badges)
 6. [x] CartService (count signal + `tap`), cart loaded on login, reset on logout
-7. [ ] Shared UI: `TODO(quantity-stepper)` ⬜ · `TODO(empty-state)` ✅
-8. [ ] `TODO(cart-item)` + `TODO(cart-summary)` → `TODO(cart)` page
+7. [x] Shared UI: `TODO(quantity-stepper)` ✅ · `TODO(empty-state)` ✅
+8. [x] `TODO(cart-item)` + `TODO(cart-summary)` → `TODO(cart)` page (matches https://ecommerce-route-ashen.vercel.app/cart); `clearCart()` + cart id done. Still to test with a real login.
 9. [ ] `TODO(wishlist-models)` → `TODO(wishlist-1)` (+ load it in `main-layout`) → `TODO(wishlist-item)` → `TODO(wishlist)` page
 10. [ ] Wire "Add to cart" / heart buttons on every page that uses `<app-product-card>`
 11. [ ] `TODO(wishlist-3)`: reset the wishlist on sign-out (`AuthService.signOut()`)

@@ -1,5 +1,69 @@
-<section class="container mx-auto my-10 max-w-3xl rounded-2xl border border-dashed border-gray-300 p-8 text-center">
-  <p class="text-4xl">🚧</p>
-  <h1 class="mt-2 text-2xl font-bold text-gray-800">Shopping cart</h1>
-  <p class="mt-2 text-gray-500">Not built yet — see <code>TODO(cart)</code> in <code>cart.component.ts</code></p>
-</section>
+@if (!auth.isLoggedIn()) {
+  <app-empty-state
+    icon="cart-shopping"
+    title="Your cart is empty"
+    message="Sign in to see the items in your cart."
+  >
+    <a routerLink="/login" class="rounded-full bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700">
+      Sign In
+    </a>
+  </app-empty-state>
+} @else if (cart.error()) {
+  <section class="container mx-auto px-4 py-16 text-center">
+    <p class="text-gray-500">We couldn't load your cart.</p>
+    <button type="button" class="mt-4 rounded-full bg-primary-600 px-6 py-3 font-semibold text-white hover:bg-primary-700" (click)="cart.reload()">
+      Try again
+    </button>
+  </section>
+} @else if (cartData(); as data) {
+  <section class="container mx-auto px-4 py-8">
+    <nav class="mb-6 flex items-center gap-2 text-sm text-gray-500">
+      <a routerLink="/" class="transition-colors hover:text-primary-600">Home</a>
+      <span>/</span>
+      <span class="font-medium text-gray-800">Shopping Cart</span>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <div class="flex size-12 items-center justify-center rounded-xl bg-primary-600 text-white">
+        <i class="fa-solid fa-cart-shopping text-xl"></i>
+      </div>
+      <h1 class="text-4xl font-bold text-gray-900">Shopping Cart</h1>
+    </div>
+    <p class="mt-2 text-gray-500">
+      You have <span class="font-semibold text-primary-600">{{ cartService.count() }} {{ cartService.count() === 1 ? 'item' : 'items' }}</span> in your cart
+    </p>
+
+    <div class="mt-8 grid items-start gap-6 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <div class="space-y-4">
+          @for (line of data.products; track line.product._id) {
+            <app-cart-item
+              [line]="line"
+              (quantityChange)="onQuantityChange(line.product._id, $event)"
+              (remove)="onRemove(line.product._id)"
+            />
+          }
+        </div>
+
+        <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
+          <a routerLink="/products" class="text-primary-600 transition-colors hover:text-primary-700">← Continue Shopping</a>
+          <button type="button" class="text-gray-500 transition-colors hover:text-red-500" (click)="onClear()">
+            <i class="fa-solid fa-trash-can mr-1"></i> Clear all items
+          </button>
+        </div>
+      </div>
+
+      <app-cart-summary [itemCount]="cartService.count()" [total]="data.totalCartPrice" [cartId]="data._id" />
+    </div>
+  </section>
+} @else if (!cart.isLoading()) {
+  <app-empty-state
+    icon="cart-shopping"
+    title="Your cart is empty"
+    message="Looks like you haven't added anything to your cart yet. Start exploring our products!"
+  >
+    <a routerLink="/products" class="rounded-full bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700">
+      Start Shopping →
+    </a>
+  </app-empty-state>
+}

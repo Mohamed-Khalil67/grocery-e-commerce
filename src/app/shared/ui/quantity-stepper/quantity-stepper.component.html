@@ -1,3 +1,21 @@
-<div class="rounded-lg border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">
-  🚧 app-quantity-stepper — see <code>TODO(quantity-stepper)</code>
+<div class="inline-flex items-center gap-1 rounded-lg border border-gray-100 bg-gray-50 p-1">
+  <button
+    type="button"
+    class="flex size-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-300 disabled:hover:bg-white"
+    [disabled]="!canDecrease()"
+    (click)="decrease()"
+  >
+    <i class="fa-solid fa-minus text-xs"></i>
+  </button>
+
+  <span class="min-w-10 text-center font-semibold text-gray-800">{{ value() }}</span>
+
+  <button
+    type="button"
+    class="flex size-8 items-center justify-center rounded-md bg-primary-600 text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-primary-600"
+    [disabled]="!canIncrease()"
+    (click)="increase()"
+  >
+    <i class="fa-solid fa-plus text-xs"></i>
+  </button>
 </div>

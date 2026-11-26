@@ -1,5 +1,8 @@
 import {Component, inject, input} from '@angular/core';
 import {rxResource} from '@angular/core/rxjs-interop';
+import {Router} from '@angular/router';
+import {AuthService} from '../../../../core/auth/services/auth.service';
+import {CartService} from '../../../cart/services/cart.service';
 import {BrandService} from '../../services/brand.service';
 import {ProductService} from '../../../shop/services/product.service';
 import {PageHeaderComponent} from '../../../../shared/ui/page-header/page-header.component';
@@ -38,6 +41,9 @@ import {ProductCardComponent} from '../../../../shared/components/product-card/p
 export class BrandDetailsComponent {
   private readonly brandService = inject(BrandService);
   private readonly productService = inject(ProductService);
+  private readonly cart = inject(CartService);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   // /brands/:id → the router puts the id here
   readonly id = input.required<string>();
@@ -52,4 +58,21 @@ export class BrandDetailsComponent {
     params: () => this.id(),
     stream: ({params}) => this.productService.getProducts(1, {brand: params}),
   });
+
+  /** The card emits the product id. Guests go to /login; the badge updates by itself (CartService `tap`). */
+  protected onAddToCart(productId: string): void {
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    console.log('[cart] add →', productId, '| count before:', this.cart.count());
+    this.cart.addToCart(productId).subscribe({
+      next: (reply) => {
+        console.log('[cart] reply →', reply, '| count after:', this.cart.count());
+      },
+      error: () => {}, // the error interceptor already showed the toast
+      complete: () => {},
+    });
+  }
 }
