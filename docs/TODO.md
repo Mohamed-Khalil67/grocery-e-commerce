@@ -44,7 +44,7 @@ Tick each when it works in the browser AND `ng build` passes. _Status updated 20
 | Quest | Status | Where / next step |
 |---|---|---|
 | Auth: Login, Register, Forgot password | ✅ done | |
-| Auth: **Change password** | 🟡 ProfileService done | `TODO(change-password-form)` → `TODO(profile)` page; save the new token after it works |
+| Auth: **Change password** | 🟡 written, needs a test with a real login | `change-password-form` saves the NEW token with `AuthService.updateSession({ token })`. Check a wrong current password shows the API message |
 | **Homepage** | ✅ done (6 of 6 sections) | |
 | **Products** page | ✅ done (grid, pagination, search) | bonus: `TODO(products-2)` sort + filter |
 | **Product details** | 🟡 gallery + info done | `TODO(product-info)`, `TODO(product-tabs)` (+ description, `review-list`, `review-form`), `TODO(related-products)` |
@@ -52,7 +52,7 @@ Tick each when it works in the browser AND `ng build` passes. _Status updated 20
 | **Categories** + Category details | ✅ done (+ subcategory chips) | delete the old `🎯 TODO` header in `categories.component.ts` |
 | **Cart:** display, add, remove, update quantity | 🟡 CartService done, badge works | `TODO(quantity-stepper)`, `TODO(empty-state)` → `TODO(cart-item)`, `TODO(cart-summary)` → `TODO(cart)`; then `TODO(cart-clear)`, `TODO(cart-id)` |
 | **Wishlist:** display, add, remove | 🟡 written, needs a test with a real login | models, `WishlistService`, row, page and hearts on the 4 product pages are done. Both `CartService` and `WishlistService` now own an `rxResource` that follows the login token (no effect in `main-layout`, no `reset()`), with `count` / `ids` as `computed`; every change reloads the resource. Still to test with a real login |
-| **Profile:** update name / email / phone | 🟡 ProfileService done | `TODO(update-profile-form)` → `TODO(profile)` |
+| **Profile:** update name / email / phone | 🟡 written, needs a test with a real login | `update-profile-form` + `TODO(profile)` page (sidebar + 2 forms, all three fields required). Check what the API does when the email is unchanged |
 | **Payment:** cash + online (Stripe) | ⬜ | `TODO(order-models)` → `TODO(shipping-form)`, `TODO(payment-method-picker)`, `TODO(order-summary)` → `TODO(payment)` checkout page |
 | **Orders** page | ⬜ | `TODO(auth-verify)` (gives the user id) → `TODO(order-item-row)`, `TODO(order-card)` → `TODO(orders)` |
 | "Use as many API endpoints as you can" | 🟡 | see the endpoint checklist below + Phase 5 bonuses |
@@ -82,7 +82,7 @@ Tick each when it works in the browser AND `ng build` passes. _Status updated 20
 
 ### Phase 3 — Profile (more Signal Forms)
 12. [x] ProfileService: `changePassword()`, `updateMe()`
-13. [ ] `TODO(change-password-form)` + `TODO(update-profile-form)` → `TODO(profile)` page
+13. [x] `TODO(change-password-form)` + `TODO(update-profile-form)` → `TODO(profile)` page (to test with a real login)
 
 ### Phase 4 — Money
 14. [ ] `TODO(order-models)` → payment service (cash order + Stripe session) → `TODO(shipping-form)`, `TODO(payment-method-picker)`, `TODO(order-summary)` → `TODO(payment)` checkout page

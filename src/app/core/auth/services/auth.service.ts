@@ -48,6 +48,24 @@ export class AuthService {
     this.userName.set(userName);
   }
 
+  /**
+   * Replace the token and / or the name after "change password" (a NEW token) or "update profile" (a new name).
+   * It writes to the SAME storage the user picked at login: if the token is in localStorage, it stays there.
+   */
+  updateSession(changes: { readonly token?: string; readonly userName?: string }): void {
+    // storage store in the box of localstorage or sessiosn storage
+    const storage = (localStorage.getItem(TOKEN_KEY) !== null) ? localStorage : sessionStorage;
+
+    if (changes.token !== undefined) {
+      storage.setItem(TOKEN_KEY, changes.token);
+      this.token.set(changes.token);
+    }
+    if (changes.userName !== undefined) {
+      storage.setItem(NAME_KEY, changes.userName);
+      this.userName.set(changes.userName);
+    }
+  }
+
   private read(key: string): string | undefined {
     return this.isBrowser ? (localStorage.getItem(key) ?? sessionStorage.getItem(key) ?? undefined) : undefined;
   }

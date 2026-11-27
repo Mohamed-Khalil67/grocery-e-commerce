@@ -1,35 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../../core/auth/services/auth.service';
+import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
+import { ChangePasswordFormComponent } from '../../components/change-password-form/change-password-form.component';
+import { UpdateProfileFormComponent } from '../../components/update-profile-form/update-profile-form.component';
 
 /**
- * 🎯 TODO(profile) — My account
- *
- * Objective
- *   A logged-in user manages their account. (The demo links to /profile and /profile/orders but they are behind login, so their design was not inspected — design it in the same style.)
- *
- * What the demo (https://freshcart-route.vercel.app) looks like
- *   - Sections: update my data, change password, link to "My orders".
- *
- * Done when
- *   - Update name / email / phone.
- *   - Change password: wrong current password shows the API message; the NEW token is saved.
- *   - Link to /profile/orders.
- *
- * Endpoints
- *   - PUT /users/updateMe
- *   - PUT /users/changeMyPassword (returns a new token)
- *
- * Concepts you'll practice
- *   - Two forms on one page
- *   - Nested components: components/change-password-form, components/update-profile-form
- *
- * Do first: TODO(profile-1), TODO(profile-2) in ProfileService
- *
- * Stuck? ask "hint for TODO(profile)" · done? ask "review TODO(profile)".
+ * My account (route /profile, only for logged-in users: authGuard).
+ * A sidebar card (who you are + shortcuts) and the two forms as nested components.
+ * Nothing is loaded here: there is no "get my profile" endpoint, the name comes from AuthService.
  */
 @Component({
-  imports: [],
+  imports: [RouterLink, PageHeaderComponent, UpdateProfileFormComponent, ChangePasswordFormComponent],
   selector: 'app-profile',
   styleUrl: './profile.component.css',
   templateUrl: './profile.component.html',
 })
-export class ProfileComponent {}
+export class ProfileComponent {
+  protected readonly auth = inject(AuthService);
+
+  /** First letter of the name, for the round avatar. */
+  protected readonly initial = computed(() => (this.auth.userName() ?? '?').charAt(0).toUpperCase());
+}
